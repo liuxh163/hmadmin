@@ -49,9 +49,14 @@
                     	title: '产品信息'
                     },
                     {
-                    	icon: 'el-icon-lx-copy',
+                    	icon: 'el-icon-view',
                     	index: 'personnel',
-                    	title: '翻译人员'
+                    	title: '翻译服务'
+                    },
+                    {
+                    	icon: 'el-icon-edit-outline',
+                    	index: 'forum',
+                    	title: '论坛服务'
                     },
                     {
                         icon: 'el-icon-lx-home',

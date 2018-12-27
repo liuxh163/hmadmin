@@ -78,6 +78,34 @@ export default new Router({
 						}
 					}]
 				},
+                {
+                	path: '/personnel',
+                	component: resolve => require(['../components/page/Personnel.vue'], resolve),
+                	meta: {
+                		title: '翻译服务'
+                	}
+                },
+                {
+                	path: '/personnel/detail',
+                	component: resolve => require(['../components/page/PersonnelDetail.vue'], resolve),
+                	meta: {
+                		title: '翻译人员'
+                	}
+                },
+                {
+                	path: '/forum',
+                	component: resolve => require(['../components/page/Forum.vue'], resolve),
+                	meta: {
+                		title: '论坛服务'
+                	}
+                },
+                {
+                	path: '/forum/detail',
+                	component: resolve => require(['../components/page/ForumDetail.vue'], resolve),
+                	meta: {
+                		title: '帖子详情'
+                	}
+                },
 				{
 					path: '/dashboard',
 					component: resolve => require(['../components/page/Dashboard.vue'], resolve),

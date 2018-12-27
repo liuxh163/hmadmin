@@ -90,7 +90,7 @@
 		name: 'tabs',
 		data() {
 			return {
-				country: 'first',
+				country: 'Japan',
 				dialogImageUrl: '',
 				dialogVisible: false,
 				fileList_first: [{

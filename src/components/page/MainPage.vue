@@ -8,7 +8,7 @@
 		</div>
 
 
-		<el-upload class='uploadCss' action="http://admin-demo.zhiyu365.cn/acaeva/file/uploadfile" :data={source:temp}
+		<el-upload action="http://admin-demo.zhiyu365.cn/acaeva/file/uploadfile" :data={source:temp}
 		 list-type="picture-card" :on-success="handleSuccess" :on-preview="handlePictureCardPreview" :on-remove="handleRemove"
 		 :before-remove="beforeRemove" :before-upload="onBeforeUpload" multiple :limit="9" :file-list="fileList" :on-exceed="handleExceed">
 			<i class="el-icon-plus"></i>
