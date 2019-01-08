@@ -11,7 +11,7 @@ if (release === false) {
     _ip = '47.92.131.110'
     // _ip = '10.1.99.7'
 } else if (release === true) {
-    _ip = '192.168.1.114'
+    _ip = '47.92.131.110'
 }
 
 export const port = _port
