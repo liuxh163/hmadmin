@@ -1,9 +1,14 @@
 <template>
     <div>
         <div>
+            待定
+            待定
+            待定
+            待定
+            待定
             <el-form ref="form" :model="prdinfo" label-width="80px" width="100%">
-                <el-form-item label="亮点介绍" style='width: 85%;'>
-                    <quill-editor ref="textEditor" v-model="prdinfo.feature" @change="onEditorChange($event)" :options="editorOption"></quill-editor>
+                <el-form-item label="预定须知" style='width: 85%;'>
+                    <quill-editor ref="textEditor" v-model="prdinfo.notice" @change="onEditorChange($event)" :options="editorOption"></quill-editor>
                 </el-form-item>
             </el-form>
         </div>
@@ -28,7 +33,7 @@
             return {
                 content: '',
                 editorOption: {
-                    placeholder: '行程亮点'
+                    placeholder: '预定须知'
                 }
             }
         },
@@ -46,8 +51,8 @@
                 html,
                 text
             }) {
-                this.prdinfo.feature = html;
-                console.log("feature: " + this.prdinfo.feature);
+                this.prdinfo.notice = html;
+                console.log("notice: " + this.prdinfo.notice);
             }
         }
     }

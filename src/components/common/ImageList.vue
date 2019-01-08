@@ -10,6 +10,8 @@
                         <span>{{image.content}}</span>
                         <div class="bottom clearfix">
                             <el-button type="text" class="button1" @click="editImage(image)">编辑</el-button>
+                            <el-button v-if='image.status == "01"' type="text" class='button3' @click="changeStatusImage(image)">{{image.status == "01" ? "停用" : "启用"}}</el-button>
+                            <el-button v-else type="text" class='button4' @click="changeStatusImage(image)">{{image.status == "01" ? "停用" : "启用"}}</el-button>
                             <el-button type="text" class="button2" @click="deleteImage(image)">删除</el-button>
                         </div>
                     </div>
@@ -23,8 +25,8 @@
                     <el-input v-model="form.content"></el-input>
                 </el-form-item>
                 <el-form-item label="图片">
-                    <el-upload class="avatar-uploader" action="http://admin-demo.zhiyu365.cn/acaeva/file/uploadfile"
-                        :data="{source:'temp'}" :show-file-list="false" :on-success="handleSuccess" :before-upload="onBeforeUpload">
+                    <el-upload class="avatar-uploader" :action="uploadUrl" :headers="headers"
+                        :show-file-list="false" :on-success="handleSuccess" :before-upload="onBeforeUpload" name="filex">
                         <img v-if="form.url" :src="form.url" class="avatar">
                         <div v-else> <i class="el-icon-upload"></i>
                             <div class="el-upload__text">点击上传</em></div>
@@ -42,6 +44,9 @@
 </template>
 
 <script>
+    import {
+        interfaces
+    } from '../../service/interfaces'
     export default {
         props: {
             data: {
@@ -50,11 +55,12 @@
                     return [{
                         id: "轮播图ID",
                         url: require('@/assets/login-bg.jpg'),
+                        status: "轮播图状态",
                         content: '描述信息',
                     }]
                 }
             },
-            editDialog: {
+            showDialog: {
                 type: Boolean,
                 default: false
             },
@@ -77,7 +83,11 @@
                     id: "",
                     url: '',
                     content: '',
-                }
+                },
+                headers: {
+                    hmtoken: localStorage.getItem('token'),
+                },
+                uploadUrl: interfaces.uplaod,
             };
         },
         created: function() {
@@ -95,7 +105,7 @@
         },
         mounted() {
             let t = this;
-            t.$watch('editDialog', e => {
+            t.$watch('showDialog', e => {
                 t.dialog = true
             })
             this.images = this.data.slice(0, this.data.length);
@@ -115,7 +125,10 @@
                 this.form.url = image.url;
                 this.form.content = image.content;
 
-                this.$emit('edit', image)
+                this.dialog = !this.dialog;
+            },
+            changeStatusImage: function(image) {
+                this.$emit('change', image)
             },
             deleteImage: function(image) {
                 this.$emit('delete', image)
@@ -133,16 +146,30 @@
                 return isJPG && isLt2M;
             },
             handleSuccess(res, file) {
-                this.form.url = URL.createObjectURL(file.raw);
+                if (res.data && res.success == true) {
+                     this.form.url = res.data[0].url;
+                } else {
+                    let msg = "服务器繁忙，请稍后再试";
+                    if (res.message) {
+                        console.log("exception：" + res.message);
+                        msg = res.message;
+                    }
+                    this.$message({
+                        showClose: true,
+                        message: msg,
+                        type: 'error'
+                    });
+                }
             },
             editCancel() {
-                this.dialog = false;
+                this.dialog = !this.dialog;
                 this.form.id = "";
                 this.form.url = "";
                 this.form.content = "";
             },
             editOK() {
-                this.dialog = false;
+                this.dialog = !this.dialog;
+                this.$emit('edit')
             }
         },
     }
@@ -179,6 +206,20 @@
         color: red;
         padding: 0;
         float: right;
+    }
+
+    .button3 {
+        margin-left: 40px;
+        color: red;
+        padding: 0;
+        float: left;
+    }
+
+    .button4 {
+        margin-left: 40px;
+        color: green;
+        padding: 0;
+        float: left;
     }
 
     .clearfix:before,

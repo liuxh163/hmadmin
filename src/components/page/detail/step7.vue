@@ -2,8 +2,8 @@
     <div>
         <div>
             <el-form ref="form" :model="prdinfo" label-width="80px" width="100%">
-                <el-form-item label="亮点介绍" style='width: 85%;'>
-                    <quill-editor ref="textEditor" v-model="prdinfo.feature" @change="onEditorChange($event)" :options="editorOption"></quill-editor>
+                <el-form-item label="医院介绍" style='width: 85%;'>
+                    <quill-editor ref="textEditor" v-model="prdinfo.hospital" @change="onEditorChange($event)" :options="editorOption"></quill-editor>
                 </el-form-item>
             </el-form>
         </div>
@@ -28,7 +28,7 @@
             return {
                 content: '',
                 editorOption: {
-                    placeholder: '行程亮点'
+                    placeholder: '医院介绍'
                 }
             }
         },
@@ -46,8 +46,8 @@
                 html,
                 text
             }) {
-                this.prdinfo.feature = html;
-                console.log("feature: " + this.prdinfo.feature);
+                this.prdinfo.hospital = html;
+                console.log("hospital: " + this.prdinfo.hospital);
             }
         }
     }

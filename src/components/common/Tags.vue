@@ -40,29 +40,40 @@
                 const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
                 if (item) {
                     delItem.path === this.$route.fullPath && this.$router.push(item.path);
-                }else{
+                } else {
                     this.$router.push('/');
                 }
             },
             // 关闭全部标签
-            closeAll(){
+            closeAll() {
                 this.tagsList = [];
                 this.$router.push('/');
             },
             // 关闭其他标签
-            closeOther(){
+            closeOther() {
                 const curItem = this.tagsList.filter(item => {
                     return item.path === this.$route.fullPath;
                 })
                 this.tagsList = curItem;
             },
             // 设置标签
-            setTags(route){
+            setTags(route) {
                 const isExist = this.tagsList.some(item => {
-                    return item.path === route.fullPath;
+                    console.log("path:" + item.path);
+                    if (item.path === route.fullPath) {
+                        return true;
+                    } else if (route.fullPath == "/detail/step1" || route.fullPath ==
+                        "/detail/step2" ||
+                        route.fullPath == "/detail/step3" || route.fullPath == "/detail/step4" || route.fullPath ==
+                        "/detail/step5" ||
+                        route.fullPath == "/detail/step6") {
+                        return true;
+                    }
+
+                    return false;
                 })
-                if(!isExist){
-                    if(this.tagsList.length >= 8){
+                if (!isExist) {
+                    if (this.tagsList.length >= 8) {
                         this.tagsList.shift();
                     }
                     this.tagsList.push({
@@ -73,7 +84,7 @@
                 }
                 bus.$emit('tags', this.tagsList);
             },
-            handleTags(command){
+            handleTags(command) {
                 command === 'other' ? this.closeOther() : this.closeAll();
             }
         },
@@ -82,16 +93,15 @@
                 return this.tagsList.length > 0;
             }
         },
-        watch:{
-            $route(newValue, oldValue){
+        watch: {
+            $route(newValue, oldValue) {
                 this.setTags(newValue);
             }
         },
-        created(){
+        created() {
             this.setTags(this.$route);
         }
     }
-
 </script>
 
 
@@ -165,5 +175,4 @@
         box-shadow: -3px 0 15px 3px rgba(0, 0, 0, .1);
         z-index: 10;
     }
-
 </style>
