@@ -17,11 +17,12 @@
                         <el-button style='margin-left: 10px; margin-top: 20px; margin-bottom: 20px;' type="primary">添加新产品</el-button>
                     </router-link>
                     <el-table :data="JapanPrd" border class="table" style="width: 100%">
-                        <el-table-column prop="name" label="名称" sortable width="260"></el-table-column>
-                        <el-table-column prop="desc" label="描述"></el-table-column>
-                        <el-table-column prop="original" label="价格" sortable width="100"></el-table-column>
-                        <el-table-column prop="discounted" label="海马价" sortable width="100"></el-table-column>
-                        <el-table-column prop="cagegory" label="标签" width="160" align="center">
+                        <el-table-column prop="desc" label="名称"></el-table-column>
+                        <el-table-column prop="adultPrice" label="成人价" sortable width="100" align="center"></el-table-column>
+                        <el-table-column prop="womenPrice" label="妇女价" sortable width="100" align="center"></el-table-column>
+                        <el-table-column prop="companyPrice" label="公司价" sortable width="100" align="center"></el-table-column>
+                        <el-table-column prop="childPrice" label="小孩价" sortable width="100" align="center"></el-table-column>
+                        <el-table-column prop="cagegory" label="产品分类" width="160" align="center">
                             <template slot-scope="scope">
                                 <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10"
                                     @change="changeProperty($event, scope.row.id, property.category)">
@@ -43,7 +44,7 @@
                             <template slot-scope="scope">
                                 <el-button v-if='scope.row.status == "01"' type="text" style='margin-right: 15px;'
                                     class='button3' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">停用</el-button>
-                                <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatus(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
+                                <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
                                 <router-link :to="{path: '/product/detail', query:{id:scope.row.id}}" style='margin-right: 15px;'>
                                     <el-button type="text" icon="el-icon-edit">编辑</el-button>
                                 </router-link>
@@ -54,7 +55,7 @@
                 </el-tab-pane>
                 <el-tab-pane :label="`韩国`" name="Korea">
                     <template v-if="country === 'Korea'">
-                        <el-button style='margin-left: 10px; margin-top: 20px;;' type="primary" @click="newImage">添加</el-button>
+                        <el-button style='margin-left: 10px; margin-top: 20px;;' type="primary" @click="newImage">添加轮播图</el-button>
                         <div style="margin-bottom: 20px; margin-left: 10px;" class="el-upload__tip">图片尺寸建议比例1:0.52，如950*500像素，只能上传jpg文件，且不超过2M</div>
 
                         <ImageList :data="imagesKorea" :showDialog='showDialog' :editForm='form' @edit="editImage"
@@ -68,7 +69,7 @@
                             <el-table-column prop="desc" label="描述"></el-table-column>
                             <el-table-column prop="original" label="价格" sortable width="100"></el-table-column>
                             <el-table-column prop="discounted" label="海马价" sortable width="100"></el-table-column>
-                            <el-table-column prop="cagegory" label="标签" width="160" align="center">
+                            <el-table-column prop="cagegory" label="产品分类" width="160" align="center">
                                 <template slot-scope="scope">
                                     <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10"
                                         @change="changeProperty($event, scope.row.id, property.category)">
@@ -92,7 +93,7 @@
                                 <template slot-scope="scope">
                                     <el-button v-if='scope.row.status == "01"' type="text" style='margin-right: 15px;'
                                         class='button3' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">停用</el-button>
-                                    <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatus(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
+                                    <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
                                     <router-link :to="{path: '/product/detail', query:{id:scope.row.id}}" style='margin-right: 15px;'>
                                         <el-button type="text" icon="el-icon-edit">编辑</el-button>
                                     </router-link>
@@ -104,7 +105,7 @@
                 </el-tab-pane>
                 <el-tab-pane :label="`泰国`" name="Thailand">
                     <template v-if="country === 'Thailand'">
-                        <el-button style='margin-left: 10px; margin-top: 20px;;' type="primary" @click="newImage">添加</el-button>
+                        <el-button style='margin-left: 10px; margin-top: 20px;;' type="primary" @click="newImage">添加轮播图</el-button>
                         <div style="margin-bottom: 20px; margin-left: 10px;" class="el-upload__tip">图片尺寸建议比例1:0.52，如950*500像素，只能上传jpg文件，且不超过2M</div>
 
                         <ImageList :data="imagesThailand" :showDialog='showDialog' :editForm='form' @edit="editImage"
@@ -118,7 +119,7 @@
                             <el-table-column prop="desc" label="描述"></el-table-column>
                             <el-table-column prop="original" label="价格" sortable width="100"></el-table-column>
                             <el-table-column prop="discounted" label="海马价" sortable width="100"></el-table-column>
-                            <el-table-column prop="cagegory" label="标签" width="160" align="center">
+                            <el-table-column prop="cagegory" label="产品分类" width="160" align="center">
                                 <template slot-scope="scope">
                                     <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10"
                                         @change="changeProperty($event, scope.row.id, property.category)">
@@ -142,7 +143,7 @@
                                 <template slot-scope="scope">
                                     <el-button v-if='scope.row.status == "01"' type="text" style='margin-right: 15px;'
                                         class='button3' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">停用</el-button>
-                                    <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatus(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
+                                    <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
                                     <router-link :to="{path: '/product/detail', query:{id:scope.row.id}}" style='margin-right: 15px;'>
                                         <el-button type="text" icon="el-icon-edit">编辑</el-button>
                                     </router-link>
@@ -214,31 +215,33 @@
         },
         methods: {
             clickTab() {
-                if (this.country == this.Japan) {
-                    if (this.japanStatus < 1) {
-                        this.getImages();
-                    }
-
-                    if (this.japanStatus < 10) {
-                        this.getProducts();
-                    }
-                } else if (this.country == this.Korea) {
-                    if (this.koreaStatus < 1) {
-                        this.getImages();
-                    }
-
-                    if (this.koreaStatus < 10) {
-                        this.getProducts();
-                    }
-                } else if (this.country == this.Thailand) {
-                    if (this.thailandStatus < 1) {
-                        this.getImages();
-                    }
-
-                    if (this.thailandStatus < 10) {
-                        this.getProducts();
-                    }
-                }
+                this.getImages();
+                this.getProducts();
+                //                 if (this.country == this.Japan) {
+                //                     if (this.japanStatus < 1) {
+                //                         this.getImages();
+                //                     }
+                // 
+                //                     if (this.japanStatus < 10) {
+                //                         this.getProducts();
+                //                     }
+                //                 } else if (this.country == this.Korea) {
+                //                     if (this.koreaStatus < 1) {
+                //                         this.getImages();
+                //                     }
+                // 
+                //                     if (this.koreaStatus < 10) {
+                //                         this.getProducts();
+                //                     }
+                //                 } else if (this.country == this.Thailand) {
+                //                     if (this.thailandStatus < 1) {
+                //                         this.getImages();
+                //                     }
+                // 
+                //                     if (this.thailandStatus < 10) {
+                //                         this.getProducts();
+                //                     }
+                //                 }
             },
             getImages() {
                 console.log("getImages: " + this.country);
@@ -249,19 +252,40 @@
                     params: {
                         location: t.getLocationFromCountry(),
                     },
-                    body : {
+                    body: {
                         status: "01,02",
                     }
                 }).then((res) => {
                     if (res.data && res.success == true) {
                         if (t.country == t.Japan) {
-                            t.imagesJapan = res.data.carousels;
+                            for (var i = 0; i < res.data.carousels.length; ++i) {
+                                t.imagesJapan.push({
+                                    id: res.data.carousels[i].id,
+                                    url: res.data.carousels[i].picFileId,
+                                    status: res.data.carousels[i].status,
+                                    content: res.data.carousels[i].name
+                                });
+                            }
                             t.japanStatus = t.japanStatus + 1;
                         } else if (t.country == t.Korea) {
-                            t.imagesKorea = res.data.carousels;
+                            for (var i = 0; i < res.data.carousels.length; ++i) {
+                                t.imagesKorea.push({
+                                    id: res.data.carousels[i].id,
+                                    url: res.data.carousels[i].picFileId,
+                                    status: res.data.carousels[i].status,
+                                    content: res.data.carousels[i].name
+                                });
+                            }
                             t.koreaStatus = t.koreaStatus + 1;
                         } else {
-                            t.imagesThailand = res.data.carousels;
+                            for (var i = 0; i < res.data.carousels.length; ++i) {
+                                t.imagesThailand.push({
+                                    id: res.data.carousels[i].id,
+                                    url: res.data.carousels[i].picFileId,
+                                    status: res.data.carousels[i].status,
+                                    content: res.data.carousels[i].name
+                                });
+                            }
                             t.thailandStatus = t.thailandStatus + 1;
                         }
                     } else {
@@ -310,19 +334,19 @@
                         }
                     }
                 }
-                
+
                 var body = {
                     name: this.form.content,
                     desc: this.form.content,
                     location: this.getLocationFromCountry(),
                     productId: "",
-                    picPath: this.form.url,
+                    picFileId: this.form.url,
                     status: status,
                     target: "",
-                    targetId: ""
+                    targetId: 0
                 }
                 console.log("body:" + JSON.stringify(body));
-                
+
                 let t = this
                 this.fetch({
                     url: interfaces.carousels,
@@ -334,19 +358,19 @@
                         if (t.form.id == '') {
                             //新建轮播图，添加到最后
                             if (t.country == t.Japan) {
-                                t.imagesJapan.push({
+                                t.imagesJapan.unshift({
                                     id: res.data.id,
                                     url: t.form.url,
                                     content: t.form.content
                                 });
                             } else if (t.country == t.Korea) {
-                                t.imagesKorea.push({
+                                t.imagesKorea.unshift({
                                     id: res.data.id,
                                     url: t.form.url,
                                     content: t.form.content
                                 });
                             } else {
-                                t.imagesThailand.push({
+                                t.imagesThailand.unshift({
                                     id: res.data.id,
                                     url: t.form.url,
                                     content: t.form.content
@@ -401,11 +425,8 @@
             deleteImage(image) {
                 let t = this
                 this.fetch({
-                    url: interfaces.carousels + "/:id",
+                    url: interfaces.carousels + "/" + image.id,
                     method: 'DELETE',
-                    params: {
-                        id: image.id
-                    }
                 }).then((res) => {
                     if (res.data && res.success == true) {
                         if (t.country == t.Japan) {
@@ -469,7 +490,7 @@
                                         t.imagesJapan[i].status = "02";
                                     } else {
                                         t.imagesJapan[i].status = "01";
-                                    }    
+                                    }
                                 }
                             }
                         } else if (t.country == t.Korea) {
@@ -479,7 +500,7 @@
                                         t.imagesKorea[i].status = "02";
                                     } else {
                                         t.imagesKorea[i].status = "01";
-                                    }  
+                                    }
                                 }
                             }
                         } else {
@@ -489,7 +510,7 @@
                                         t.imagesThailand[i].status = "02";
                                     } else {
                                         t.imagesThailand[i].status = "01";
-                                    }  
+                                    }
                                 }
                             }
                         }
@@ -526,6 +547,31 @@
                     }
                 }).then((res) => {
                     if (res.data && res.success == true) {
+//                         res.data.products = [{
+//                             id: "3",
+//                             nation: '01',
+//                             desc: 'asdf',
+//                             adultPrice: 10,
+//                             womenPrice: 20,
+//                             companyPrice: 30,
+//                             childPrice: 50,
+//                             legalProtection: true,
+//                             advanceCompensation: true,
+//                             installment: true,
+//                             lowsetCost: 0,
+//                             travelCard: true,
+//                             tags: ["abc", "adb", "daf"],
+//                             images: [],
+//                             feature: "1234",
+//                             detail: "1234",
+//                             routine: "1234",
+//                             fee: "2134",
+//                             notice: "1234",
+//                             hospital: "1234",
+//                             experts: [],
+//                             operations: [],
+//                             status: "02"
+//                         }]
                         if (t.country == t.Japan) {
                             t.JapanPrd = res.data.products;
                             t.japanStatus = t.japanStatus + 10;
@@ -613,12 +659,12 @@
                     });
                 });
             },
-            changeStatusPrd(prd) {
+            changeStatusPrd(index, id, status) {
                 var url;
-                if (prd.status == "01") {
-                    url = interfaces.carousels + "/" + prd.id +"/halt";
+                if (status == "01") {
+                    url = interfaces.products + "/" + id + "/halt";
                 } else {
-                    url = interfaces.carousels + "/" + prd.id +"/awaken";
+                    url = interfaces.products + "/" + id + "/awaken";
                 }
                 let t = this
                 this.fetch({
@@ -626,39 +672,24 @@
                     method: "PUT",
                 }).then((res) => {
                     if (res.data && res.success == true) {
-                        //更新轮播图
+                        //更新产品状态
                         if (t.country == t.Japan) {
-                            for (let i = 0; i < t.JapanPrd.length; i++) {
-                                if (t.JapanPrd[i].id === prd.id) {
-                                    if (prd.status == "01") {
-                                        t.JapanPrd[i].status = "02";
-                                    } else {
-                                        t.JapanPrd[i].status = "01";
-                                    }
-                                        
-                                }
+                            if (status == "01") {
+                                t.JapanPrd[index].status = "02";
+                            } else {
+                                t.JapanPrd[index].status = "01";
                             }
                         } else if (t.country == t.Korea) {
-                            for (let i = 0; i < t.KoreaPrd.length; i++) {
-                                if (t.KoreaPrd[i].id === prd.id) {
-                                    if (prd.status == "01") {
-                                        t.KoreaPrd[i].status = "02";
-                                    } else {
-                                        t.KoreaPrd[i].status = "01";
-                                    }
-                                        
-                                }
+                            if (prd.status == "01") {
+                                t.KoreaPrd[index].status = "02";
+                            } else {
+                                t.KoreaPrd[index].status = "01";
                             }
                         } else {
-                            for (let i = 0; i < t.ThailandPrd.length; i++) {
-                                if (t.ThailandPrd[i].id === prd.id) {
-                                    if (prd.status == "01") {
-                                        t.ThailandPrd[i].status = "02";
-                                    } else {
-                                        t.ThailandPrd[i].status = "01";
-                                    }
-                                        
-                                }
+                            if (prd.status == "01") {
+                                t.ThailandPrd[index].status = "02";
+                            } else {
+                                t.ThailandPrd[index].status = "01";
                             }
                         }
                     } else {
@@ -734,12 +765,12 @@
     .red {
         color: #ff0000;
     }
-    
+
     .button3 {
         color: red;
         padding: 0;
     }
-    
+
     .button4 {
         color: green;
         padding: 0;

@@ -62,11 +62,16 @@
                     console.log("path:" + item.path);
                     if (item.path === route.fullPath) {
                         return true;
-                    } else if (route.fullPath == "/detail/step1" || route.fullPath ==
-                        "/detail/step2" ||
-                        route.fullPath == "/detail/step3" || route.fullPath == "/detail/step4" || route.fullPath ==
-                        "/detail/step5" ||
-                        route.fullPath == "/detail/step6") {
+                    } else if (route.fullPath == "/detail/step1" ||
+                        route.fullPath == "/detail/step2" ||
+                        route.fullPath == "/detail/step3" ||
+                        route.fullPath == "/detail/step4" ||
+                        route.fullPath == "/detail/step5" ||
+                        route.fullPath == "/detail/step6" ||
+                        route.fullPath == "/detail/step7" ||
+                        route.fullPath == "/detail/step8" ||
+                        route.fullPath == "/detail/step9" ||
+                        route.fullPath == "/detail/step10") {
                         return true;
                     }
 

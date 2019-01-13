@@ -40,12 +40,9 @@
             getImages() {
                 let t = this
                 this.fetch({
-                    url: interfaces.carousels,
+                    url: interfaces.carousels + "?location=01",
                     method: 'GET',
-                    params: {
-                        location: "01",
-                    },
-                    body : {
+                    data : {
                         status: "01,02",
                     }
                 }).then((res) => {
@@ -111,7 +108,7 @@
                     picFileId: this.form.url,
                     status: status,
                     target: "",
-                    targetId: ""
+                    targetId: 0
                 }
                 console.log("body:" + JSON.stringify(body));
                 let t = this
@@ -241,8 +238,6 @@
             this.getImages();
         },
         created() {
-            localStorage.setItem('token', "3443a800-11b6-11e9-8b67-5777d365f015");
-            // localStorage.setItem('token', "f58fdb20-1029-11e9-9d50-f1e2efe7fce5");
         }
     }
 </script>

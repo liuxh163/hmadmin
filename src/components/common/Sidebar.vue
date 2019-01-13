@@ -58,6 +58,11 @@
                     	index: 'forum',
                     	title: '论坛服务'
                     },
+                    {
+                    	icon: 'el-icon-view',
+                    	index: 'user',
+                    	title: '注册人员'
+                    },
 //                     {
 //                         icon: 'el-icon-lx-home',
 //                         index: 'dashboard',

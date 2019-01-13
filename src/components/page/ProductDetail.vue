@@ -11,18 +11,18 @@
             <el-steps :active="step" class="step" align-center>
                 <el-step title="基本信息" description=""></el-step>
                 <el-step title="行程亮点" description=""></el-step>
-                <el-step title="体验介绍" description=""></el-step>
+                <el-step title="体验注意事项" description=""></el-step>
                 <el-step title="轻松行程" description=""></el-step>
                 <el-step title="费用说明" description=""></el-step>
                 <el-step title="预定须知" description=""></el-step>
                 <el-step title="医院介绍" description=""></el-step>
                 <el-step title="基础项目" description=""></el-step>
-                <el-step title="可选项目" description=""></el-step>
                 <el-step title="专家团队" description=""></el-step>
+                <el-step title="运行活动" description=""></el-step>
             </el-steps>
 
             <transition name="fade">
-                <router-view class="view"></router-view>
+                <router-view :id='id' class="view"></router-view>
             </transition>
 
             <el-button style="margin-top: 12px; margin-left: 50px" v-show="preStep" @click.native.prevent="handlePreStep">上一步</el-button>
@@ -52,14 +52,14 @@
                 step: 1,
                 preStep: false,
                 nextStep: true,
-                publish: false,
+                publish: true,
                 id: "",
                 nation: ""
             }
         },
         methods: {
             ...mapMutations([
-                'setPrdInfo'
+                'setPrdInfo', "setPrdTags"
             ]),
             handlePreStep() {
                 console.log('handlePreStep');
@@ -90,7 +90,7 @@
                     case 1:
                         this.preStep = false;
                         this.nextStep = true;
-                        this.publish = false;
+                        this.publish = true;
                         break;
                     case 2:
                     case 3:
@@ -99,7 +99,7 @@
                     case 6:
                         this.preStep = true;
                         this.nextStep = true;
-                        this.publish = false;
+                        this.publish = true;
                         break;
                     case 7:
                     case 8:
@@ -116,7 +116,61 @@
                 }
             },
             handlePublish: function() {
-                console.log('发布');
+                console.log("发布产品: " + this.prdinfo.id);
+                var data = this.prdinfo;
+                var method, url, type;
+                if (this.id == '' || this.id == undefined) {
+                    type = "01";
+                    url = interfaces.products;
+                    method = "POST";
+                    data.status = "02";
+                    data.nation = this.nation;
+                    delete data.id;
+                } else {
+                    type = "02";
+                    url = interfaces.products + "/" + data.id;
+                    method = "PUT";
+                }
+                console.log("data:" + JSON.stringify(data));
+                let t = this;
+                this.fetch({
+                    url: url,
+                    method: method,
+                    data: data
+                }).then((res) => {
+                    if (res.data && res.success == true) {
+                        var message;
+                        if (type == '01') {
+                            message = "产品创建成功"
+                        } else {
+                            message = "更新产品成功"
+                        }
+                        this.$message({
+                            showClose: true,
+                            message: message,
+                            type: 'success'
+                        });
+                        // this.$router.go(-1);
+                    } else {
+                        let msg = "服务器繁忙，请稍后再试";
+                        if (res.message) {
+                            console.log("exception：" + res.message);
+                            msg = res.message;
+                        }
+                        this.$message({
+                            showClose: true,
+                            message: msg,
+                            type: 'error'
+                        });
+                    }
+                }).catch((res) => {
+                    console.log('error：' + res)
+                    this.$message({
+                        showClose: true,
+                        message: '服务器繁忙，请稍后再试',
+                        type: 'error'
+                    });
+                });
             },
             getDetail() {
                 console.log("getDetail: " + this.id);
@@ -127,7 +181,7 @@
                 }).then((res) => {
                     if (res.data && res.success == true) {
                         //填写数据
-                        this.prdinfo = res.data;
+                        this.setPrdInfo(res.data);
                     } else {
                         let msg = "服务器繁忙，请稍后再试";
                         if (res.message) {
@@ -140,7 +194,6 @@
                             type: 'error'
                         });
                     }
-
                 }).catch((res) => {
                     console.log('error：' + res)
                     this.$message({
@@ -148,58 +201,8 @@
                         message: '服务器繁忙，请稍后再试',
                         type: 'error'
                     });
-                    res = {
-                        data: {
-                            desc: '这事测试数据',
-                            cost: 1000,
-                            legalProtection: true,
-                            advanceCompensation: true,
-                            installment: true,
-                            lowsetCost: 3990,
-                            travelCard: true,
-                            tags: [{
-                                name: "123"
-                            }, {
-                                name: "333"
-                            }],
-                            images: [{
-                                id: "1",
-                                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                                content: "Lorem y dummy t",
-                            }, {
-                                id: "2",
-                                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                                content: "Lorem y dummy t",
-                            }, {
-                                id: "3",
-                                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                                content: "Lorem y dummy t",
-                            }, {
-                                id: "4",
-                                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                                content: "Lorem y dummy t",
-                            }, {
-                                id: "5",
-                                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                                content: "Lorem y dummy t",
-                            }, {
-                                id: "6",
-                                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                                content: "Lorem y dummy t",
-                            }, {
-                                id: "7",
-                                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                                content: "Lorem y dummy t",
-                            }, {
-                                id: "8",
-                                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                                content: "Lorem y dummy t",
-                            }]
-                        }
-                    };
-                    this.setPrdInfo(res.data);
                 });
-            }
+            },
         },
         watch: {
             '$route': function(to, from) {
@@ -216,7 +219,8 @@
             ]),
         },
         mounted() {
-            if (this.id != '') {
+            console.log("id: " + this.id);
+            if (this.id != '' && this.id != undefined) {
                 this.getDetail();
             }
         }

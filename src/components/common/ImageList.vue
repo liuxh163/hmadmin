@@ -25,8 +25,8 @@
                     <el-input v-model="form.content"></el-input>
                 </el-form-item>
                 <el-form-item label="图片">
-                    <el-upload class="avatar-uploader" :action="uploadUrl" :headers="headers"
-                        :show-file-list="false" :on-success="handleSuccess" :before-upload="onBeforeUpload" name="filex">
+                    <el-upload class="avatar-uploader" :action="uploadUrl" :headers="headers" :show-file-list="false"
+                        :on-success="handleSuccess" :before-upload="onBeforeUpload" name="filex">
                         <img v-if="form.url" :src="form.url" class="avatar">
                         <div v-else> <i class="el-icon-upload"></i>
                             <div class="el-upload__text">点击上传</em></div>
@@ -85,7 +85,7 @@
                     content: '',
                 },
                 headers: {
-                    hmtoken: localStorage.getItem('token'),
+                    hmtoken: localStorage.getItem('hmtoken'),
                 },
                 uploadUrl: interfaces.uplaod,
             };
@@ -134,20 +134,22 @@
                 this.$emit('delete', image)
             },
             onBeforeUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
+                //                 const isJPG = file.type === 'image/jpeg';
+                //                 const isLt2M = file.size / 1024 / 1024 < 2;
+                // 
+                //                 if (!isJPG) {
+                //                     this.$message.error('上传头像图片只能是 JPG 格式!');
+                //                 }
+                //                 if (!isLt2M) {
+                //                     this.$message.error('上传头像图片大小不能超过 2MB!');
+                //                 }
+                //                 return isJPG && isLt2M;
 
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
+                return true;
             },
             handleSuccess(res, file) {
                 if (res.data && res.success == true) {
-                     this.form.url = res.data[0].url;
+                    this.form.url = res.data.files[0].path;
                 } else {
                     let msg = "服务器繁忙，请稍后再试";
                     if (res.message) {

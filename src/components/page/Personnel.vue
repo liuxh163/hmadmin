@@ -143,16 +143,15 @@
                 KoreaPsn: [],
                 ThailandPsn: [],
                 cagegories: [{
-                    value: '',
+                    value: '03',
                     label: '无'
                 }, {
-                    value: 'hot',
-                    label: '热'
+                    value: '02',
+                    label: '最热'
                 }, {
-                    value: 'recommend',
+                    value: '01',
                     label: '推荐'
                 }],
-
             }
         },
         methods: {

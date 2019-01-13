@@ -19,9 +19,8 @@ axios.defaults.withCredentials = true
 axios.defaults.timeout = 5000
 axios.defaults.baseURL = 'http://' + ip + ':' + port
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
-// axios.defaults.headers.common['hmtoken'] = localStorage.getItem('token')
-axios.defaults.headers.common['hmtoken'] = '3443a800-11b6-11e9-8b67-5777d365f015';
-// axios.defaults.headers.common['hmtoken'] = 'f58fdb20-1029-11e9-9d50-f1e2efe7fce5';
+axios.defaults.headers.common['hmtoken'] = localStorage.getItem('hmtoken')
+// axios.defaults.headers.common['hmtoken'] = '3443a800-11b6-11e9-8b67-5777d365f015';
 // http response 拦截器
 axios.interceptors.response.use(
     response => {

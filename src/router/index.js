@@ -76,6 +76,30 @@ export default new Router({
 						meta: {
 							title: '预定须知'
 						}
+					}, {
+						path: '/detail/step7',
+						component: resolve => require(['../components/page/detail/step7.vue'], resolve),
+						meta: {
+							title: '医院介绍'
+						}
+					}, {
+						path: '/detail/step8',
+						component: resolve => require(['../components/page/detail/step8.vue'], resolve),
+						meta: {
+							title: '基础项目'
+						}
+					}, {
+						path: '/detail/step9',
+						component: resolve => require(['../components/page/detail/step9.vue'], resolve),
+						meta: {
+							title: '可选项目'
+						}
+					}, {
+						path: '/detail/step10',
+						component: resolve => require(['../components/page/detail/step10.vue'], resolve),
+						meta: {
+							title: '专家团队'
+						}
 					}]
 				},
                 {
@@ -104,6 +128,27 @@ export default new Router({
                 	component: resolve => require(['../components/page/ForumDetail.vue'], resolve),
                 	meta: {
                 		title: '帖子详情'
+                	}
+                },
+                {
+                	path: '/forum/create',
+                	component: resolve => require(['../components/page/ForumCreate.vue'], resolve),
+                	meta: {
+                		title: '创建帖子'
+                	}
+                },
+                {
+                	path: '/user',
+                	component: resolve => require(['../components/page/Users.vue'], resolve),
+                	meta: {
+                		title: '注册人员'
+                	}
+                },
+                {
+                	path: '/user/detail',
+                	component: resolve => require(['../components/page/UserDetail.vue'], resolve),
+                	meta: {
+                		title: '人员详情'
                 	}
                 },
 				{

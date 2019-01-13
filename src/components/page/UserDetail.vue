@@ -47,13 +47,7 @@
                         <el-input placeholder="0" :number="true" v-model="form.recepPrice"><template slot="append">人/天</template></el-input>
                     </el-form-item>
                     <el-form-item label="服务介绍" style='width: 85%;'>
-                         <vue-editor useCustomImageHandler @imageAdded="imageAdd" v-model="form.intro" placeholder="服务介绍" />
-                    </el-form-item>
-                    <el-form-item label="车型" style='width: 85%;'>
-                        <vue-editor useCustomImageHandler @imageAdded="imageAdd" v-model="form.car" placeholder="车型"/>
-                    </el-form-item>
-                    <el-form-item label="费用说明" style='width: 85%;'>
-                        <vue-editor useCustomImageHandler @imageAdded="imageAdd" v-model="form.feedesc" placeholder="费用说明"/>
+                        <quill-editor ref="textEditor" v-model="form.intro" @change="onEditorChange($event)" :options="editorOption"></quill-editor>
                     </el-form-item>
                 </el-form>
             </div>
@@ -67,9 +61,13 @@
     import {
         interfaces
     } from '../../service/interfaces'
+    import 'quill/dist/quill.core.css';
+    import 'quill/dist/quill.snow.css';
+    import 'quill/dist/quill.bubble.css';
     import {
-        VueEditor
-    } from 'vue2-editor'
+        quillEditor
+    } from 'vue-quill-editor';
+    import axios from 'axios'
 
     export default {
         name: 'personneldetail',
@@ -92,9 +90,10 @@
                     type: "",
                     service: "02", //未知数据
                     intro: "",
-                    car: "",
-                    feedesc: "",
                     status: "",
+                },
+                editorOption: {
+                    placeholder: '服务介绍'
                 },
                 headers: {
                     hmtoken: localStorage.getItem('hmtoken'),
@@ -102,12 +101,12 @@
             }
         },
         components: {
-            VueEditor
+            quillEditor
         },
         methods: {
             handleAvatarSuccess(res, file) {
                 if (res.data && res.success == true) {
-                    this.form.picFileId = res.data.files[0].path;
+                     this.form.picFileId = res.data.files[0].path;
                 } else {
                     let msg = "服务器繁忙，请稍后再试";
                     if (res.message) {
@@ -121,7 +120,7 @@
                     });
                 }
                 console.log("file: " + JSON.stringify(res));
-
+               
                 console.log(this.form.picFileId);
             },
             beforeAvatarUpload(file) {
@@ -138,41 +137,12 @@
                 }
                 return isJPG && isLt2M;
             },
-            imageAdd(file, Editor, cursorLocation, resetUploader) {
-                var formData = new FormData();
-                formData.append('filex', file)
-                
-                console.log("图片上传: " + file.name);
-                let t = this;
-                this.fetch({
-                    url: interfaces.uplaod,
-                    method: "POST",
-                    data: formData
-                }).then((res) => {
-                    if (res.data && res.success == true) {
-                        let url = res.data.files[0].path;
-                        Editor.insertEmbed(cursorLocation, 'image', url);
-                        resetUploader();
-                    } else {
-                        let msg = "服务器繁忙，请稍后再试";
-                        if (res.message) {
-                            console.log("exception：" + res.message);
-                            msg = res.message;
-                        }
-                        this.$message({
-                            showClose: true,
-                            message: msg,
-                            type: 'error'
-                        });
-                    }
-                }).catch((res) => {
-                    console.log('error：' + res)
-                    this.$message({
-                        showClose: true,
-                        message: '服务器繁忙，请稍后再试',
-                        type: 'error'
-                    });
-                });
+            onEditorChange({
+                editor,
+                html,
+                text
+            }) {
+                this.form.intro = html;
             },
             getDetail() {
                 console.log("getDetail: " + this.form.id);
@@ -189,13 +159,13 @@
                         } else {
                             t.form.liter = false;
                         }
-
+                        
                         if (res.data.type.indexOf("02") != -1) {
                             t.form.follow = true;
                         } else {
                             t.form.follow = false;
                         }
-
+                        
                         if (res.data.type.indexOf("03") != -1) {
                             t.form.recep = true;
                         } else {
@@ -223,7 +193,7 @@
                 });
             },
             submit() {
-                console.log("创建服务人员: " + this.form.id);
+                console.log("create person: " + this.form.id);
                 var data = this.form;
                 data.type = "";
                 if (this.form.liter == true) {
@@ -242,11 +212,11 @@
                     if (data.type != '') {
                         data.type += ",";
                     }
-                    data.type += "03";
+                    data.type += "03"
                 }
 
                 var method, url, type;
-                if (this.form.id == '' || this.form.id == undefined) {
+                if (this.form.id == '') {
                     type = "01";
                     url = interfaces.personnel;
                     method = "POST";
@@ -289,7 +259,7 @@
                         });
                     }
                 }).catch((res) => {
-                    console.log('error：' + res);
+                    console.log('error：' + res)
                     this.$message({
                         showClose: true,
                         message: '服务器繁忙，请稍后再试',
