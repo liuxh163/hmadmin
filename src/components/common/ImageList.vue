@@ -91,11 +91,6 @@
             };
         },
         created: function() {
-            var area = document.getElementsByClassName("imgarea");
-            for (var i = 0; i < area.length; ++i) {
-                var width = getComputedStyle(area[i], null)['width'];
-                area[i].style.height = parseInt(parseInt(width) * 0.526) + "px";
-            }
         },
         watch: {
             data: function() {

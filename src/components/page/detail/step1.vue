@@ -88,7 +88,6 @@
         },
         data: function() {
             return {
-                id: "",
                 tags: [],
                 images: [],
                 //图片处理
@@ -106,9 +105,6 @@
             }
         },
         mounted() {
-            if (this.id == "" || this.id == undefined) {
-                return;
-            }
             this.getTags();
             this.getImages();
         },
@@ -117,14 +113,12 @@
                 'setPrdInfo', "setPrdTags"
             ]),
             getTags() {
-                console.log("获取产品标签: " + this.id);
                 let t = this;
                 this.fetch({
-                    url: interfaces.tags + "?target=01&targetId=" + this.id,
+                    url: interfaces.tags + "?target=01&targetId=" + this.prdinfo.id,
                     method: 'GET',
                 }).then((res) => {
                     if (res.data && res.success == true) {
-                        console.log("tags: " + JSON.stringify(res.data.tags));
                         this.tags = res.data.tags;
                     } else {
                         let msg = "服务器繁忙，请稍后再试";
@@ -139,7 +133,6 @@
                         });
                     }
                 }).catch((res) => {
-                    console.log('error：' + res)
                     this.$message({
                         showClose: true,
                         message: '服务器繁忙，请稍后再试',
@@ -160,7 +153,6 @@
                 }
             },
             addTag(tag) {
-                console.log(tag);
                 if (this.tags == undefined) {
                     this.tags = [];
                 }
@@ -182,7 +174,7 @@
                     } else {
                         let t = this
                         this.fetch({
-                            url: interfaces.tags + "?target=01&targetId=" + this.id,
+                            url: interfaces.tags + "?target=01&targetId=" + this.prdinfo.id,
                             method: 'POST',
                             data: {
                                 name: tag
@@ -198,9 +190,9 @@
                             } else {
                                 let msg = "服务器繁忙，请稍后再试";
                                 if (res.message) {
-                                    console.log("exception：" + res.message);
                                     msg = res.message;
                                 }
+                                console.log("exception：" + res.errcode + "..." + res.message);
                                 this.$message({
                                     showClose: true,
                                     message: msg,
@@ -208,7 +200,6 @@
                                 });
                             }
                         }).catch((res) => {
-                            console.log('error：' + res)
                             this.$message({
                                 showClose: true,
                                 message: '服务器繁忙，请稍后再试',
@@ -230,22 +221,23 @@
             getImages() {
                 let t = this
                 this.fetch({
-                    url: interfaces.carousels + "?location=05",
+                    url: interfaces.carousels,
                     method: 'GET',
-                    data : {
+                    params: {
+                        location: "05",
                         status: "01,02",
-                        productId: this.id
+                        productId: this.prdinfo.id
                     }
                 }).then((res) => {
                     if (res.status == '200' && res.success == true) {
                         t.images = [];
                         for (var i = 0; i < res.data.carousels.length; ++i) {
-                             t.images.push({
-                                 id: res.data.carousels[i].id,
-                                 url: res.data.carousels[i].picFileId,
-                                 status: res.data.carousels[i].status,
-                                 content: res.data.carousels[i].name
-                             });
+                            t.images.push({
+                                id: res.data.carousels[i].id,
+                                url: res.data.carousels[i].picFileId,
+                                status: res.data.carousels[i].status,
+                                content: res.data.carousels[i].name
+                            });
                         }
                     } else {
                         let msg = "服务器繁忙，请稍后再试";
@@ -295,7 +287,7 @@
                     name: this.form.content,
                     desc: this.form.content,
                     location: "05",
-                    productId: this.id,
+                    productId: this.prdinfo.id,
                     picFileId: this.form.url,
                     status: status,
                     target: "",
@@ -328,7 +320,7 @@
                     } else {
                         let msg = "服务器繁忙，请稍后再试";
                         if (res.message) {
-                            console.log("exception：" + res.message);
+                            console.log("exception：" + res.errcode + "..." + res.message);
                             msg = res.message;
                         }
                         this.$message({
@@ -361,7 +353,7 @@
                     } else {
                         let msg = "服务器繁忙，请稍后再试";
                         if (res.message) {
-                            console.log("exception：" + res.message);
+                            console.log("exception：" + res.errcode + "..." + res.message);
                             msg = res.message;
                         }
                         this.$message({
@@ -425,7 +417,7 @@
             }
         },
         created() {
-            this.id = this.$route.query.id;
+            // this.id = this.$route.query.id;
         },
     }
 </script>

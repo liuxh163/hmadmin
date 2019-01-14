@@ -36,10 +36,25 @@
             },
             // 关闭单个标签
             closeTags(index) {
+                console.log("tags: " + JSON.stringify(this.tagsList) + "   index: " + index);
                 const delItem = this.tagsList.splice(index, 1)[0];
                 const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
+                console.log("tags: " + JSON.stringify(this.tagsList) + "\n  index: " + index +
+                    "\n  delItem: " + JSON.stringify(delItem) +
+                    "\n  item: " + JSON.stringify(item) +
+                    "\n  fullPath: " + this.$route.fullPath);
                 if (item) {
-                    delItem.path === this.$route.fullPath && this.$router.push(item.path);
+                    if (delItem.name == "productdetail") {
+                        let fullPath = this.$route.fullPath;
+                        if (fullPath == "/detail/step1" || fullPath == "/detail/step2" || fullPath == "/detail/step3" ||
+                            fullPath == "/detail/step4" || fullPath == "/detail/step5" || fullPath == "/detail/step6" ||
+                            fullPath == "/detail/step7" || fullPath == "/detail/step8" || fullPath == "/detail/step9" ||
+                            fullPath == "/detail/step10") {
+                            this.$router.push(item.path);
+                        }
+                    } else {
+                        delItem.path === this.$route.fullPath && this.$router.push(item.path);
+                    }
                 } else {
                     this.$router.push('/');
                 }
@@ -58,8 +73,9 @@
             },
             // 设置标签
             setTags(route) {
+                console.log("settag: " + route.fullPath);
                 const isExist = this.tagsList.some(item => {
-                    console.log("path:" + item.path);
+                    console.log("  item path:" + item.path);
                     if (item.path === route.fullPath) {
                         return true;
                     } else if (route.fullPath == "/detail/step1" ||

@@ -217,47 +217,44 @@
             clickTab() {
                 this.getImages();
                 this.getProducts();
-                //                 if (this.country == this.Japan) {
-                //                     if (this.japanStatus < 1) {
-                //                         this.getImages();
-                //                     }
-                // 
-                //                     if (this.japanStatus < 10) {
-                //                         this.getProducts();
-                //                     }
-                //                 } else if (this.country == this.Korea) {
-                //                     if (this.koreaStatus < 1) {
-                //                         this.getImages();
-                //                     }
-                // 
-                //                     if (this.koreaStatus < 10) {
-                //                         this.getProducts();
-                //                     }
-                //                 } else if (this.country == this.Thailand) {
-                //                     if (this.thailandStatus < 1) {
-                //                         this.getImages();
-                //                     }
-                // 
-                //                     if (this.thailandStatus < 10) {
-                //                         this.getProducts();
-                //                     }
-                //                 }
+//                 if (this.country == this.Japan) {
+//                     if (this.japanStatus < 1) {
+//                         this.getImages();
+//                     }
+// 
+//                     if (this.japanStatus < 10) {
+//                         this.getProducts();
+//                     }
+//                 } else if (this.country == this.Korea) {
+//                     if (this.koreaStatus < 1) {
+//                         this.getImages();
+//                     }
+// 
+//                     if (this.koreaStatus < 10) {
+//                         this.getProducts();
+//                     }
+//                 } else if (this.country == this.Thailand) {
+//                     if (this.thailandStatus < 1) {
+//                         this.getImages();
+//                     }
+// 
+//                     if (this.thailandStatus < 10) {
+//                         this.getProducts();
+//                     }
+//                 }
             },
             getImages() {
-                console.log("getImages: " + this.country);
                 let t = this;
                 this.fetch({
-                    url: interfaces.carousels,
+                    url: interfaces.carousels + "?location=" + t.getLocationFromCountry(),
                     method: 'GET',
-                    params: {
-                        location: t.getLocationFromCountry(),
-                    },
-                    body: {
+                    data: {
                         status: "01,02",
                     }
                 }).then((res) => {
                     if (res.data && res.success == true) {
                         if (t.country == t.Japan) {
+                            t.imagesJapan = [];
                             for (var i = 0; i < res.data.carousels.length; ++i) {
                                 t.imagesJapan.push({
                                     id: res.data.carousels[i].id,
@@ -268,6 +265,7 @@
                             }
                             t.japanStatus = t.japanStatus + 1;
                         } else if (t.country == t.Korea) {
+                            t.imagesKorea = [];
                             for (var i = 0; i < res.data.carousels.length; ++i) {
                                 t.imagesKorea.push({
                                     id: res.data.carousels[i].id,
@@ -278,6 +276,7 @@
                             }
                             t.koreaStatus = t.koreaStatus + 1;
                         } else {
+                            t.imagesThailand = [];
                             for (var i = 0; i < res.data.carousels.length; ++i) {
                                 t.imagesThailand.push({
                                     id: res.data.carousels[i].id,
@@ -536,7 +535,6 @@
                 });
             },
             getProducts() {
-                console.log("getProducts: " + this.country);
                 let t = this;
                 this.fetch({
                     url: interfaces.products,
@@ -547,31 +545,31 @@
                     }
                 }).then((res) => {
                     if (res.data && res.success == true) {
-//                         res.data.products = [{
-//                             id: "3",
-//                             nation: '01',
-//                             desc: 'asdf',
-//                             adultPrice: 10,
-//                             womenPrice: 20,
-//                             companyPrice: 30,
-//                             childPrice: 50,
-//                             legalProtection: true,
-//                             advanceCompensation: true,
-//                             installment: true,
-//                             lowsetCost: 0,
-//                             travelCard: true,
-//                             tags: ["abc", "adb", "daf"],
-//                             images: [],
-//                             feature: "1234",
-//                             detail: "1234",
-//                             routine: "1234",
-//                             fee: "2134",
-//                             notice: "1234",
-//                             hospital: "1234",
-//                             experts: [],
-//                             operations: [],
-//                             status: "02"
-//                         }]
+                        //                         res.data.products = [{
+                        //                             id: "3",
+                        //                             nation: '01',
+                        //                             desc: 'asdf',
+                        //                             adultPrice: 10,
+                        //                             womenPrice: 20,
+                        //                             companyPrice: 30,
+                        //                             childPrice: 50,
+                        //                             legalProtection: true,
+                        //                             advanceCompensation: true,
+                        //                             installment: true,
+                        //                             lowsetCost: 0,
+                        //                             travelCard: true,
+                        //                             tags: ["abc", "adb", "daf"],
+                        //                             images: [],
+                        //                             feature: "1234",
+                        //                             detail: "1234",
+                        //                             routine: "1234",
+                        //                             fee: "2134",
+                        //                             notice: "1234",
+                        //                             hospital: "1234",
+                        //                             experts: [],
+                        //                             operations: [],
+                        //                             status: "02"
+                        //                         }]
                         if (t.country == t.Japan) {
                             t.JapanPrd = res.data.products;
                             t.japanStatus = t.japanStatus + 10;

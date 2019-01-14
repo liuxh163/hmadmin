@@ -16,7 +16,7 @@ import {
 import axios from 'axios'
 // axios定义
 axios.defaults.withCredentials = true
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 15000
 axios.defaults.baseURL = 'http://' + ip + ':' + port
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 axios.defaults.headers.common['hmtoken'] = localStorage.getItem('hmtoken')

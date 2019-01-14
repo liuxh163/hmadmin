@@ -20,11 +20,38 @@
                 <el-step title="专家团队" description=""></el-step>
                 <el-step title="运行活动" description=""></el-step>
             </el-steps>
-
-            <transition name="fade">
-                <router-view :id='id' class="view"></router-view>
-            </transition>
-
+            
+            <div v-if="step == 1">
+                <step1></step1>
+            </div>
+            <div v-else-if="step == 2">
+                <step2></step2>
+            </div>
+            <div v-else-if="step == 3">
+                <step3></step3>
+            </div>
+            <div v-else-if="step == 4">
+                <step4></step4>
+            </div>
+            <div v-else-if="step == 5">
+                <step5></step5>
+            </div>
+            <div v-else-if="step == 6">
+                <step6></step6>
+            </div>
+            <div v-else-if="step == 7">
+                <step7></step7>
+            </div>
+            <div v-else-if="step == 8">
+                <step8></step8>
+            </div>
+            <div v-else-if="step == 9">
+                <step9></step9>
+            </div>
+            <div v-else-if="step == 10">
+                <step10></step10>
+            </div>
+            
             <el-button style="margin-top: 12px; margin-left: 50px" v-show="preStep" @click.native.prevent="handlePreStep">上一步</el-button>
             <el-button style="margin-top: 12px; margin-left: 50px;" v-show="nextStep" @click.native.prevent="handleNextStep">下一步</el-button>
             <el-button style="margin-top: 12px; margin-left: 50px" v-show="publish" @click.native.prevent="handlePublish">发布</el-button>
@@ -42,6 +69,16 @@
     import {
         interfaces
     } from '../../service/interfaces'
+    import step1 from '@/components/page/detail/step1'
+    import step2 from '@/components/page/detail/step2'
+    import step3 from '@/components/page/detail/step3'
+    import step4 from '@/components/page/detail/step4'
+    import step5 from '@/components/page/detail/step5'
+    import step6 from '@/components/page/detail/step6'
+    import step7 from '@/components/page/detail/step7'
+    import step8 from '@/components/page/detail/step8'
+    import step9 from '@/components/page/detail/step9'
+    import step10 from '@/components/page/detail/step10'
 
 
     export default {
@@ -56,6 +93,9 @@
                 id: "",
                 nation: ""
             }
+        },
+        components: {
+            step1, step2, step3, step4, step5, step6, step7, step8, step9, step10
         },
         methods: {
             ...mapMutations([
