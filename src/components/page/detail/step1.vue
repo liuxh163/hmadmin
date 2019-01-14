@@ -9,7 +9,7 @@
                 <el-form-item label="成人费用" style="width: 300px;">
                     <el-input placeholder="0" :number="true" v-model="prdinfo.adultPrice"><template slot="append">/ 人</template></el-input>
                 </el-form-item>
-                <el-form-item label="妇女费用" style="width: 300px;">
+                <!-- <el-form-item label="妇女费用" style="width: 300px;">
                     <el-input placeholder="0" :number="true" v-model="prdinfo.womenPrice"><template slot="append">/ 人</template></el-input>
                 </el-form-item>
                 <el-form-item label="公司费用" style="width: 300px;">
@@ -17,16 +17,16 @@
                 </el-form-item>
                 <el-form-item label="小孩费用" style="width: 300px;">
                     <el-input placeholder="0" :number="true" v-model="prdinfo.childPrice"><template slot="append">/ 人</template></el-input>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item label="活动标签">
-                    <el-tag :key='tag.id' v-for="tag in tags" closable @close="deleteTag(tag.name)">
+                    <el-tag :key='tag.id' v-for="tag in tags" closable @close="deleteTag(tag)">
                         {{tag.name}}
                     </el-tag>
                     <el-button icon="el-icon-plus" size="large" @click.native="showTagDialog()" style="vertical-align: middle;margin: 10px;"></el-button>
                 </el-form-item>
 
-                <el-form-item label="法律保障">
+                <!-- <el-form-item label="法律保障">
                     <el-switch v-model="prdinfo.legalProtection"></el-switch>
                 </el-form-item>
                 <el-form-item label="先行赔付">
@@ -40,7 +40,7 @@
                 </el-form-item>
                 <el-form-item label="出行卡">
                     <el-switch v-model="prdinfo.travelCard"></el-switch>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item label="宣传图">
                     <el-button style='margin-left: 10px; margin-top: 10px;;' type="primary" @click="newImage">添加</el-button>
@@ -88,6 +88,7 @@
         },
         data: function() {
             return {
+                id: 0,
                 tags: [],
                 images: [],
                 //图片处理
@@ -104,7 +105,20 @@
                 },
             }
         },
+        props: {
+            prdid: {
+                type: Number,
+                default: 0
+            },
+        },
+        watch: {
+            data: function() {
+                this.id = this.prdid;
+            },
+        },
         mounted() {
+            this.id = this.prdid;
+            
             this.getTags();
             this.getImages();
         },
@@ -115,7 +129,7 @@
             getTags() {
                 let t = this;
                 this.fetch({
-                    url: interfaces.tags + "?target=01&targetId=" + this.prdinfo.id,
+                    url: interfaces.tags + "?target=01&targetId=" + this.id,
                     method: 'GET',
                 }).then((res) => {
                     if (res.data && res.success == true) {
@@ -143,7 +157,7 @@
             showTagDialog() {
                 if (this.tags != undefined && this.tags.length >= 10) {
                     this.$message({
-                        message: '最多设置5个标签',
+                        message: '最多设置10个标签',
                         type: 'warning'
                     });
                     return;
@@ -174,7 +188,7 @@
                     } else {
                         let t = this
                         this.fetch({
-                            url: interfaces.tags + "?target=01&targetId=" + this.prdinfo.id,
+                            url: interfaces.tags + "?target=01&targetId=" + this.id,
                             method: 'POST',
                             data: {
                                 name: tag
@@ -184,6 +198,7 @@
                                 t.dialogFormVisible = false;
                                 t.dialogFormFenLeiVisible = false;
                                 t.tags.push({
+                                    id: res.data.id,
                                     name: tag
                                 });
                                 t.dialogTag = !t.dialogTag;
@@ -214,9 +229,39 @@
                     });
                 }
             },
-            deleteTag(value) {
-                var index = tags.indexOf(value);
-                this.tags.splice(index, 1);
+            deleteTag(tag) {
+                 let t = this
+                this.fetch({
+                    url: interfaces.tags + "/" + tag.id,
+                    method: 'DELETE',
+                }).then((res) => {
+                    if (res.data && res.success == true) {
+                        var index;
+                        for (var i = 0; i < this.tags.length; ++i) {
+                            if (this.tags[i].id == tag.id) {
+                                index = i;
+                            }
+                        }
+                        this.tags.splice(index, 1);
+                    } else {
+                        let msg = "服务器繁忙，请稍后再试";
+                        if (res.message) {
+                            msg = res.message;
+                        }
+                        console.log("exception：" + res.errcode + "..." + res.message);
+                        this.$message({
+                            showClose: true,
+                            message: msg,
+                            type: 'error'
+                        });
+                    }
+                }).catch((res) => {
+                    this.$message({
+                        showClose: true,
+                        message: '服务器繁忙，请稍后再试',
+                        type: 'error'
+                    });
+                });
             },
             getImages() {
                 let t = this
@@ -226,7 +271,7 @@
                     params: {
                         location: "05",
                         status: "01,02",
-                        productId: this.prdinfo.id
+                        productId: this.id
                     }
                 }).then((res) => {
                     if (res.status == '200' && res.success == true) {
@@ -287,7 +332,7 @@
                     name: this.form.content,
                     desc: this.form.content,
                     location: "05",
-                    productId: this.prdinfo.id,
+                    productId: this.id,
                     picFileId: this.form.url,
                     status: status,
                     target: "",

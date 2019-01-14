@@ -12,9 +12,9 @@
                     <el-form-item label="姓名" style='width: 400px'>
                         <el-input v-model="form.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="学籍" style='width: 400px'>
+                    <!-- <el-form-item label="学籍" style='width: 400px'>
                         <el-input v-model="form.university"></el-input>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item label="简介" style='width: 85%;'>
                         <el-input type="textarea" rows="5" v-model="form.desc"></el-input>
                     </el-form-item>
@@ -26,6 +26,13 @@
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             <div class="el-upload__tip" slot="tip">图片尺寸建议比例1；4.18，如160*666像素，且不超过2M</div>
                         </el-upload>
+                    </el-form-item>
+
+                    <el-form-item label="个人标签">
+                        <el-tag :key='tag.id' v-for="tag in tags" closable @close="deleteTag(tag.name)">
+                            {{tag.name}}
+                        </el-tag>
+                        <el-button icon="el-icon-plus" size="large" @click.native="showTagDialog()" style="vertical-align: middle;margin: 10px;"></el-button>
                     </el-form-item>
 
                     <el-form-item label="文字翻译">
@@ -47,15 +54,28 @@
                         <el-input placeholder="0" :number="true" v-model="form.recepPrice"><template slot="append">人/天</template></el-input>
                     </el-form-item>
                     <el-form-item label="服务介绍" style='width: 85%;'>
-                         <vue-editor useCustomImageHandler @imageAdded="imageAdd" v-model="form.intro" placeholder="服务介绍" />
+                        <vue-editor useCustomImageHandler @imageAdded="imageAdd" v-model="form.intro" placeholder="服务介绍" />
                     </el-form-item>
                     <el-form-item label="车型" style='width: 85%;'>
-                        <vue-editor useCustomImageHandler @imageAdded="imageAdd" v-model="form.car" placeholder="车型"/>
+                        <vue-editor useCustomImageHandler @imageAdded="imageAdd" v-model="form.car" placeholder="车型" />
                     </el-form-item>
                     <el-form-item label="费用说明" style='width: 85%;'>
-                        <vue-editor useCustomImageHandler @imageAdded="imageAdd" v-model="form.feedesc" placeholder="费用说明"/>
+                        <vue-editor useCustomImageHandler @imageAdded="imageAdd" v-model="form.feedesc" placeholder="费用说明" />
                     </el-form-item>
                 </el-form>
+
+                <!-- 弹框 -->
+                <el-dialog title="添加标签" :visible.sync="dialogTag" top="15%" width='25%'>
+                    <el-form :model="tagForm">
+                        <el-form-item>
+                            <el-input v-model="tagForm.name" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click.native="dialogTag = !dialogTag">取 消</el-button>
+                        <el-button type="primary" @click.native="addTag(tagForm.name)">添加</el-button>
+                    </span>
+                </el-dialog>
             </div>
 
             <el-button style="margin-top: 12px; margin-left: 50px" @click.native.prevent="submit">提交</el-button>
@@ -98,7 +118,13 @@
                 },
                 headers: {
                     hmtoken: localStorage.getItem('hmtoken'),
-                }
+                },
+                //标签处理
+                tags: [],
+                dialogTag: false,
+                tagForm: {
+                    name: ""
+                },
             }
         },
         components: {
@@ -141,7 +167,7 @@
             imageAdd(file, Editor, cursorLocation, resetUploader) {
                 var formData = new FormData();
                 formData.append('filex', file)
-                
+
                 console.log("图片上传: " + file.name);
                 let t = this;
                 this.fetch({
@@ -296,7 +322,144 @@
                         type: 'error'
                     });
                 });
-            }
+            },
+            getTags() {
+                let t = this;
+                this.fetch({
+                    url: interfaces.tags + "?target=03&targetId=" + this.form.id,
+                    method: 'GET',
+                }).then((res) => {
+                    if (res.data && res.success == true) {
+                        this.tags = res.data.tags;
+                    } else {
+                        let msg = "服务器繁忙，请稍后再试";
+                        if (res.message) {
+                            console.log("exception：" + res.errcode + "..." + res.message);
+                            msg = res.message;
+                        }
+                        this.$message({
+                            showClose: true,
+                            message: msg,
+                            type: 'error'
+                        });
+                    }
+                }).catch((res) => {
+                    this.$message({
+                        showClose: true,
+                        message: '服务器繁忙，请稍后再试',
+                        type: 'error'
+                    });
+                });
+            },
+            showTagDialog() {
+                if (this.tags != undefined && this.tags.length >= 10) {
+                    this.$message({
+                        message: '最多设置10个标签',
+                        type: 'warning'
+                    });
+                    return;
+                } else {
+                    this.dialogTag = !this.dialogTag;
+                    this.tagForm.name = '';
+                }
+            },
+            addTag(tag) {
+                if (this.tags == undefined) {
+                    this.tags = [];
+                }
+            
+                if (tag && tag.trim().length !== 0) {
+                    var isExist = false;
+                    tag = tag.trim();
+                    for (var i = 0; i < this.tags.length; i++) {
+                        if (this.tags[i] == tag) {
+                            isExist = true;
+                            break
+                        }
+                    }
+                    if (isExist) {
+                        this.$message({
+                            message: '该标签已存在',
+                            type: 'warning'
+                        });
+                    } else {
+                        let t = this
+                        this.fetch({
+                            url: interfaces.tags + "?target=03&targetId=" + this.form.id,
+                            method: 'POST',
+                            data: {
+                                name: tag
+                            }
+                        }).then((res) => {
+                            if (res.data && res.success == true) {
+                                t.dialogFormVisible = false;
+                                t.dialogFormFenLeiVisible = false;
+                                t.tags.push({
+                                    id: res.data.id,
+                                    name: tag
+                                });
+                                t.dialogTag = !t.dialogTag;
+                            } else {
+                                let msg = "服务器繁忙，请稍后再试";
+                                if (res.message) {
+                                    msg = res.message;
+                                }
+                                console.log("exception：" + res.errcode + "..." + res.message);
+                                this.$message({
+                                    showClose: true,
+                                    message: msg,
+                                    type: 'error'
+                                });
+                            }
+                        }).catch((res) => {
+                            this.$message({
+                                showClose: true,
+                                message: '服务器繁忙，请稍后再试',
+                                type: 'error'
+                            });
+                        });
+                    }
+                } else {
+                    this.$message({
+                        message: '标签不能为空',
+                        type: 'warning'
+                    });
+                }
+            },
+            deleteTag(tag) {
+                 let t = this
+                this.fetch({
+                    url: interfaces.tags + "/" + tag.id,
+                    method: 'DELETE',
+                }).then((res) => {
+                    if (res.data && res.success == true) {
+                        var index;
+                        for (var i = 0; i < this.tags.length; ++i) {
+                            if (this.tags[i].id == tag.id) {
+                                index = i;
+                            }
+                        }
+                        this.tags.splice(index, 1);
+                    } else {
+                        let msg = "服务器繁忙，请稍后再试";
+                        if (res.message) {
+                            msg = res.message;
+                        }
+                        console.log("exception：" + res.errcode + "..." + res.message);
+                        this.$message({
+                            showClose: true,
+                            message: msg,
+                            type: 'error'
+                        });
+                    }
+                }).catch((res) => {
+                    this.$message({
+                        showClose: true,
+                        message: '服务器繁忙，请稍后再试',
+                        type: 'error'
+                    });
+                });
+            },
         },
         created() {
             this.form.id = this.$route.query.id;
@@ -305,6 +468,7 @@
         mounted() {
             if (this.form.id != '') {
                 this.getDetail();
+                this.getTags();
             }
         }
     }

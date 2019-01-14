@@ -46,7 +46,7 @@
                 if (item) {
                     if (delItem.name == "productdetail") {
                         let fullPath = this.$route.fullPath;
-                        if (fullPath == "/detail/step1" || fullPath == "/detail/step2" || fullPath == "/detail/step3" ||
+                        if (fullPath.indexOf("/product/detail") != -1 || fullPath == "/detail/step1" || fullPath == "/detail/step2" || fullPath == "/detail/step3" ||
                             fullPath == "/detail/step4" || fullPath == "/detail/step5" || fullPath == "/detail/step6" ||
                             fullPath == "/detail/step7" || fullPath == "/detail/step8" || fullPath == "/detail/step9" ||
                             fullPath == "/detail/step10") {

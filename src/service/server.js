@@ -7,7 +7,7 @@ let _port = ''
 export const release = true // 发布 true | false
 
 if (release === false) {
-    _ip = '10.1.99.8'
+    _ip = '10.1.99.7'
     _port = '4000'
 } else if (release === true) {
     _ip = '47.92.131.110'

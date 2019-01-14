@@ -8,7 +8,7 @@
         </div>
         <div class="container">
 
-            <el-steps :active="step" class="step" align-center>
+            <el-steps :active="step" class="step" align-center style='margin-bottom: 30px;'>
                 <el-step title="基本信息" description=""></el-step>
                 <el-step title="行程亮点" description=""></el-step>
                 <el-step title="体验注意事项" description=""></el-step>
@@ -22,7 +22,7 @@
             </el-steps>
             
             <div v-if="step == 1">
-                <step1></step1>
+                <step1 :prdid='id'></step1>
             </div>
             <div v-else-if="step == 2">
                 <step2></step2>
