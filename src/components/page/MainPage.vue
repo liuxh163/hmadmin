@@ -40,9 +40,10 @@
             getImages() {
                 let t = this
                 this.fetch({
-                    url: interfaces.carousels + "?location=01",
+                    url: interfaces.carousels,
                     method: 'GET',
-                    data : {
+                    params : {
+                        location: "01",
                         status: "01,02",
                     }
                 }).then((res) => {

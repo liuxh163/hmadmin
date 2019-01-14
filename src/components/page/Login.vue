@@ -30,6 +30,7 @@
     import {
         interfaces
     } from '../../service/interfaces'
+    import axios from 'axios'
 
     export default {
         data: function() {
@@ -83,8 +84,8 @@
                     if (res.data && res.success == true) {
                         localStorage.setItem('ms_username',this.ruleForm.telephone);
                         localStorage.setItem('hmtoken', res.data.accessToken);
-                        this.$router.push('/mainpage');
-                        console.log("123")
+                        axios.defaults.headers.common['hmtoken'] = res.data.accessToken;
+                        this.$router.push('/');
                     } else {
                         let msg = "服务器繁忙，请稍后再试";
                         if (res.message) {

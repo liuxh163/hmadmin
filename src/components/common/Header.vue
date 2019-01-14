@@ -44,13 +44,17 @@
     </div>
 </template>
 <script>
+    import {
+        interfaces
+    } from '../../service/interfaces'
     import bus from '../common/bus';
+    
     export default {
         data() {
             return {
                 collapse: false,
                 fullscreen: false,
-                name: 'linxin',
+                name: '海马医疗',
                 message: 2
             }
         },
@@ -64,8 +68,19 @@
             // 用户名下拉菜单选择事件
             handleCommand(command) {
                 if(command == 'loginout'){
-                    localStorage.removeItem('ms_username')
-                    this.$router.push('/login');
+                    let t = this;
+                    this.fetch({
+                        url: interfaces.admin + "/logout",
+                        method: "PUT",
+                    }).then((res) => {
+                        localStorage.removeItem('ms_username');
+                        localStorage.removeItem("hmtoken");
+                        this.$router.push('/login');
+                    }).catch((res) => {
+                        localStorage.removeItem('ms_username');
+                        localStorage.removeItem("hmtoken");
+                        this.$router.push('/login');
+                    });
                 }
             },
             // 侧边栏折叠
