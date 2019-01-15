@@ -13,7 +13,7 @@
                     </router-link>
                     <el-table :data="JapanPsn" border class="table" style="width: 100%">
                         <el-table-column prop="name" label="名字" sortable></el-table-column>
-                        <el-table-column prop="university" label="学籍"></el-table-column>
+                        <!-- <el-table-column prop="university" label="学籍"></el-table-column> -->
                         <el-table-column prop="classify" label="分类"></el-table-column>
                         <el-table-column prop="score" label="评级" width="240" align="center" sortable>
                             <template slot-scope="scope">
@@ -21,10 +21,20 @@
                                 </el-rate>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="cagegory" label="标签" width="180" align="center">
+                        <el-table-column prop="cagegory" label="产品分类" width="160" align="center">
                             <template slot-scope="scope">
-                                <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10">
+                                <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10"
+                                    @change="changeProperty($event, scope.$index, scope.row.id, property.category)">
                                     <el-option v-for="item in cagegories" :key="item.value" :label="item.label" :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="isMainPage" label="首页展示" width="120" align="center">
+                            <template slot-scope="scope">
+                                <el-select v-model="scope.row.isMainPage" placeholder="首页" class="handle-select mr10"
+                                    @change="changeProperty($event, scope.$index, scope.row.id, property.mainpage)">
+                                    <el-option v-for="item in mainPage" :key="item.value" :label="item.label" :value="item.value">
                                     </el-option>
                                 </el-select>
                             </template>
@@ -49,7 +59,7 @@
                         </router-link>
                         <el-table :data="KoreaPsn" border class="table" style="width: 100%">
                             <el-table-column prop="name" label="名字" sortable></el-table-column>
-                            <el-table-column prop="university" label="学籍"></el-table-column>
+                            <!-- <el-table-column prop="university" label="学籍"></el-table-column> -->
                             <el-table-column prop="classify" label="分类"></el-table-column>
                             <el-table-column prop="score" label="评级" width="240" align="center" sortable>
                                 <template slot-scope="scope">
@@ -57,11 +67,20 @@
                                     </el-rate>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="cagegory" label="标签" width="180" align="center">
+                            <el-table-column prop="cagegory" label="产品分类" width="160" align="center">
                                 <template slot-scope="scope">
-                                    <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10">
-                                        <el-option v-for="item in cagegories" :key="item.value" :label="item.label"
-                                            :value="item.value">
+                                    <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10"
+                                        @change="changeProperty($event, scope.$index, scope.row.id, property.category)">
+                                        <el-option v-for="item in cagegories" :key="item.value" :label="item.label" :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="isMainPage" label="首页展示" width="120" align="center">
+                                <template slot-scope="scope">
+                                    <el-select v-model="scope.row.isMainPage" placeholder="首页" class="handle-select mr10"
+                                        @change="changeProperty($event, scope.$index, scope.row.id, property.mainpage)">
+                                        <el-option v-for="item in mainPage" :key="item.value" :label="item.label" :value="item.value">
                                         </el-option>
                                     </el-select>
                                 </template>
@@ -87,7 +106,7 @@
                         </router-link>
                         <el-table :data="ThailandPsn" border class="table" style="width: 100%">
                             <el-table-column prop="name" label="名字" sortable></el-table-column>
-                            <el-table-column prop="university" label="学籍"></el-table-column>
+                            <!-- <el-table-column prop="university" label="学籍"></el-table-column> -->
                             <el-table-column prop="classify" label="分类"></el-table-column>
                             <el-table-column prop="score" label="评级" width="240" align="center" sortable>
                                 <template slot-scope="scope">
@@ -95,11 +114,20 @@
                                     </el-rate>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="cagegory" label="标签" width="180" align="center">
+                            <el-table-column prop="cagegory" label="产品分类" width="160" align="center">
                                 <template slot-scope="scope">
-                                    <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10">
-                                        <el-option v-for="item in cagegories" :key="item.value" :label="item.label"
-                                            :value="item.value">
+                                    <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10"
+                                        @change="changeProperty($event, scope.$index, scope.row.id, property.category)">
+                                        <el-option v-for="item in cagegories" :key="item.value" :label="item.label" :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="isMainPage" label="首页展示" width="120" align="center">
+                                <template slot-scope="scope">
+                                    <el-select v-model="scope.row.isMainPage" placeholder="首页" class="handle-select mr10"
+                                        @change="changeProperty($event, scope.$index, scope.row.id, property.mainpage)">
+                                        <el-option v-for="item in mainPage" :key="item.value" :label="item.label" :value="item.value">
                                         </el-option>
                                     </el-select>
                                 </template>
@@ -142,6 +170,10 @@
                 JapanPsn: [],
                 KoreaPsn: [],
                 ThailandPsn: [],
+                property: {
+                    category: "category",
+                    mainpage: "mainpage"
+                },
                 cagegories: [{
                     value: '03',
                     label: '无'
@@ -151,6 +183,13 @@
                 }, {
                     value: '01',
                     label: '推荐'
+                }],
+                mainPage: [{
+                    value: '01',
+                    label: '是'
+                }, {
+                    value: '02',
+                    label: '否'
                 }],
             }
         },
@@ -310,6 +349,65 @@
                             t.KoreaPsn.splice(index, 1);
                         } else if (t.country == t.Thailand) {
                             t.ThailandPsn.splice(index, 1);
+                        }
+                    } else {
+                        let msg = "服务器繁忙，请稍后再试";
+                        if (res.message) {
+                            console.log("exception：" + res.message);
+                            msg = res.message;
+                        }
+                        this.$message({
+                            showClose: true,
+                            message: msg,
+                            type: 'error'
+                        });
+                    }
+                }).catch((res) => {
+                    console.log('error：' + res)
+                    this.$message({
+                        showClose: true,
+                        message: '服务器繁忙，请稍后再试',
+                        type: 'error'
+                    });
+                });
+            },
+            changeProperty(value, index, id, type) {
+                console.log("changeProperty: " + value + "   " + index + "   " + type);
+                let t = this
+                var data;
+                if (type == t.property.category) {
+                    data = {
+                        "category": value
+                    }
+                } else {
+                    data = {
+                        "isMainPage": value
+                    }
+                }
+                this.fetch({
+                    url: interfaces.personnel + "/" + id,
+                    method: 'PUT',
+                    data: data
+                }).then((res) => {
+                    if (res.data && res.success == true) {
+                        if (t.country == t.Japan) {
+                            if (type == t.property.category) {
+                                t.JapanPsn[index].category = value;
+                            } else {
+                                t.JapanPsn[index].isMainPage = value;
+                            }
+                        } else if (t.country == t.Korea) {
+                            if (type == t.property.category) {
+                                t.JapanPsn[index].category = value;
+                            } else {
+                                t.JapanPsn[index].status = value;
+                            }
+                        } else {
+                            if (type == t.property.category) {
+                                t.JapanPsn[index].category = value;
+                            } else {
+                                t.JapanPsn[index].status = value;
+                            }
                         }
                     } else {
                         let msg = "服务器繁忙，请稍后再试";

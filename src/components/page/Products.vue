@@ -13,28 +13,28 @@
 
                     <ImageList :data="imagesJapan" :showDialog='showDialog' :editForm='form' @edit="editImage" @change="changeStatusImage"
                         @delete="deleteImage"></ImageList>
-                    <router-link :to="{path: '/product/detail', query:{id:'', nation:getNationFromCountry()}}">
+                    <router-link :to="{path: '/product/detail', query:{id:0, nation:getNationFromCountry()}}">
                         <el-button style='margin-left: 10px; margin-top: 20px; margin-bottom: 20px;' type="primary">添加新产品</el-button>
                     </router-link>
                     <el-table :data="JapanPrd" border class="table" style="width: 100%">
                         <el-table-column prop="desc" label="名称"></el-table-column>
                         <el-table-column prop="adultPrice" label="成人价" sortable width="100" align="center"></el-table-column>
-                        <el-table-column prop="womenPrice" label="妇女价" sortable width="100" align="center"></el-table-column>
+                        <!-- <el-table-column prop="womenPrice" label="妇女价" sortable width="100" align="center"></el-table-column>
                         <el-table-column prop="companyPrice" label="公司价" sortable width="100" align="center"></el-table-column>
-                        <el-table-column prop="childPrice" label="小孩价" sortable width="100" align="center"></el-table-column>
+                        <el-table-column prop="childPrice" label="小孩价" sortable width="100" align="center"></el-table-column> -->
                         <el-table-column prop="cagegory" label="产品分类" width="160" align="center">
                             <template slot-scope="scope">
                                 <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10"
-                                    @change="changeProperty($event, scope.row.id, property.category)">
+                                    @change="changeProperty($event, scope.$index, scope.row.id, property.category)">
                                     <el-option v-for="item in cagegories" :key="item.value" :label="item.label" :value="item.value">
                                     </el-option>
                                 </el-select>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="mainpage" label="首页展示" width="120" align="center">
+                        <el-table-column prop="isMainPage" label="首页展示" width="120" align="center">
                             <template slot-scope="scope">
-                                <el-select v-model="scope.row.mainpage" placeholder="首页" class="handle-select mr10"
-                                    @change="changeProperty($event, scope.row.id, property.mainpage)">
+                                <el-select v-model="scope.row.isMainPage" placeholder="首页" class="handle-select mr10"
+                                    @change="changeProperty($event, scope.$index, scope.row.id, property.mainpage)">
                                     <el-option v-for="item in mainPage" :key="item.value" :label="item.label" :value="item.value">
                                     </el-option>
                                 </el-select>
@@ -61,28 +61,29 @@
                         <ImageList :data="imagesKorea" :showDialog='showDialog' :editForm='form' @edit="editImage"
                             @change="changeStatusImage" @delete="deleteImage"></ImageList>
 
-                        <router-link :to="{path: '/product/detail', query:{id:'', nation:getNationFromCountry()}}">
+                        <router-link :to="{path: '/product/detail', query:{id:0, nation:getNationFromCountry()}}">
                             <el-button style='margin-left: 10px; margin-top: 20px; margin-bottom: 20px;' type="primary">添加新产品</el-button>
                         </router-link>
-                        <el-table :data="KoreaPrd" border class="table" style="width: 100%">
-                            <el-table-column prop="name" label="名称" sortable width="260"></el-table-column>
-                            <el-table-column prop="desc" label="描述"></el-table-column>
-                            <el-table-column prop="original" label="价格" sortable width="100"></el-table-column>
-                            <el-table-column prop="discounted" label="海马价" sortable width="100"></el-table-column>
+                        <el-table :data="JapanPrd" border class="table" style="width: 100%">
+                            <el-table-column prop="desc" label="名称"></el-table-column>
+                            <el-table-column prop="adultPrice" label="成人价" sortable width="100" align="center"></el-table-column>
+                            <!-- <el-table-column prop="womenPrice" label="妇女价" sortable width="100" align="center"></el-table-column>
+                            <el-table-column prop="companyPrice" label="公司价" sortable width="100" align="center"></el-table-column>
+                            <el-table-column prop="childPrice" label="小孩价" sortable width="100" align="center"></el-table-column> -->
                             <el-table-column prop="cagegory" label="产品分类" width="160" align="center">
                                 <template slot-scope="scope">
                                     <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10"
-                                        @change="changeProperty($event, scope.row.id, property.category)">
+                                        @change="changeProperty($event, scope.$index, scope.row.id, property.category)">
                                         <el-option v-for="item in cagegories" :key="item.value" :label="item.label"
                                             :value="item.value">
                                         </el-option>
                                     </el-select>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="mainpage" label="首页展示" width="120" align="center">
+                            <el-table-column prop="isMainPage" label="首页展示" width="120" align="center">
                                 <template slot-scope="scope">
-                                    <el-select v-model="scope.row.mainpage" placeholder="首页" class="handle-select mr10"
-                                        @change="changeProperty($event, scope.row.id, property.mainpage)">
+                                    <el-select v-model="scope.row.isMainPage" placeholder="首页" class="handle-select mr10"
+                                        @change="changeProperty($event, scope.$index, scope.row.id, property.mainpage)">
                                         <el-option v-for="item in mainPage" :key="item.value" :label="item.label"
                                             :value="item.value">
                                         </el-option>
@@ -111,28 +112,29 @@
                         <ImageList :data="imagesThailand" :showDialog='showDialog' :editForm='form' @edit="editImage"
                             @change="changeStatusImage" @delete="deleteImage"></ImageList>
 
-                        <router-link :to="{path: '/product/detail', query:{id:'', nation:getNationFromCountry()}}">
+                        <router-link :to="{path: '/product/detail', query:{id:0, nation:getNationFromCountry()}}">
                             <el-button style='margin-left: 10px; margin-top: 20px; margin-bottom: 20px;' type="primary">添加新产品</el-button>
                         </router-link>
-                        <el-table :data="ThailandPrd" border class="table" style="width: 100%">
-                            <el-table-column prop="name" label="名称" sortable width="260"></el-table-column>
-                            <el-table-column prop="desc" label="描述"></el-table-column>
-                            <el-table-column prop="original" label="价格" sortable width="100"></el-table-column>
-                            <el-table-column prop="discounted" label="海马价" sortable width="100"></el-table-column>
+                        <el-table :data="JapanPrd" border class="table" style="width: 100%">
+                            <el-table-column prop="desc" label="名称"></el-table-column>
+                            <el-table-column prop="adultPrice" label="成人价" sortable width="100" align="center"></el-table-column>
+                            <!-- <el-table-column prop="womenPrice" label="妇女价" sortable width="100" align="center"></el-table-column>
+                            <el-table-column prop="companyPrice" label="公司价" sortable width="100" align="center"></el-table-column>
+                            <el-table-column prop="childPrice" label="小孩价" sortable width="100" align="center"></el-table-column> -->
                             <el-table-column prop="cagegory" label="产品分类" width="160" align="center">
                                 <template slot-scope="scope">
                                     <el-select v-model="scope.row.category" placeholder="产品分类" class="handle-select mr10"
-                                        @change="changeProperty($event, scope.row.id, property.category)">
+                                        @change="changeProperty($event, scope.$index, scope.row.id, property.category)">
                                         <el-option v-for="item in cagegories" :key="item.value" :label="item.label"
                                             :value="item.value">
                                         </el-option>
                                     </el-select>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="mainpage" label="首页展示" width="120" align="center">
+                            <el-table-column prop="isMainPage" label="首页展示" width="120" align="center">
                                 <template slot-scope="scope">
-                                    <el-select v-model="scope.row.mainpage" placeholder="首页" class="handle-select mr10"
-                                        @change="changeProperty($event, scope.row.id, property.mainpage)">
+                                    <el-select v-model="scope.row.isMainPage" placeholder="首页" class="handle-select mr10"
+                                        @change="changeProperty($event, scope.$index, scope.row.id, property.mainpage)">
                                         <el-option v-for="item in mainPage" :key="item.value" :label="item.label"
                                             :value="item.value">
                                         </el-option>
@@ -192,20 +194,20 @@
                 KoreaPrd: [],
                 ThailandPrd: [],
                 cagegories: [{
-                    value: '',
+                    value: '03',
                     label: '无'
                 }, {
-                    value: 'hot',
-                    label: '热'
+                    value: '02',
+                    label: '最热'
                 }, {
-                    value: 'recommend',
+                    value: '01',
                     label: '推荐'
                 }],
                 mainPage: [{
-                    value: 'yes',
+                    value: '01',
                     label: '是'
                 }, {
-                    value: 'no',
+                    value: '02',
                     label: '否'
                 }],
             }
@@ -217,31 +219,31 @@
             clickTab() {
                 this.getImages();
                 this.getProducts();
-//                 if (this.country == this.Japan) {
-//                     if (this.japanStatus < 1) {
-//                         this.getImages();
-//                     }
-// 
-//                     if (this.japanStatus < 10) {
-//                         this.getProducts();
-//                     }
-//                 } else if (this.country == this.Korea) {
-//                     if (this.koreaStatus < 1) {
-//                         this.getImages();
-//                     }
-// 
-//                     if (this.koreaStatus < 10) {
-//                         this.getProducts();
-//                     }
-//                 } else if (this.country == this.Thailand) {
-//                     if (this.thailandStatus < 1) {
-//                         this.getImages();
-//                     }
-// 
-//                     if (this.thailandStatus < 10) {
-//                         this.getProducts();
-//                     }
-//                 }
+                //                 if (this.country == this.Japan) {
+                //                     if (this.japanStatus < 1) {
+                //                         this.getImages();
+                //                     }
+                // 
+                //                     if (this.japanStatus < 10) {
+                //                         this.getProducts();
+                //                     }
+                //                 } else if (this.country == this.Korea) {
+                //                     if (this.koreaStatus < 1) {
+                //                         this.getImages();
+                //                     }
+                // 
+                //                     if (this.koreaStatus < 10) {
+                //                         this.getProducts();
+                //                     }
+                //                 } else if (this.country == this.Thailand) {
+                //                     if (this.thailandStatus < 1) {
+                //                         this.getImages();
+                //                     }
+                // 
+                //                     if (this.thailandStatus < 10) {
+                //                         this.getProducts();
+                //                     }
+                //                 }
             },
             getImages() {
                 let t = this;
@@ -249,7 +251,7 @@
                     url: interfaces.carousels + "?location=" + t.getLocationFromCountry(),
                     method: 'GET',
                     data: {
-                        status: "01,02",
+                        // status: "01,02",
                     }
                 }).then((res) => {
                     if (res.data && res.success == true) {
@@ -535,6 +537,11 @@
                 });
             },
             getProducts() {
+                this.JapanPrd = [];
+                this.KoreaPrd = [];
+                this.ThailandPrd = [];
+
+
                 let t = this;
                 this.fetch({
                     url: interfaces.products,
@@ -619,23 +626,44 @@
                     return "03";
                 }
             },
-            changeProperty(value, index, type) {
-                console.log("changeProperty: " + value + "   " + index + "   " + type);
+            changeProperty(value, index, id, type) {
+                console.log("changeProperty: " + value + "   " + index + "   " + id + "   " + type);
                 let t = this
-                let data = new FormData();
-                data.append('id', index);
+                let data;
                 if (type == t.property.category) {
-                    data.append("category", value);
+                    data = {
+                        "category": value
+                    }
                 } else {
-                    data.append("mainpage", value);
+                    data = {
+                        "isMainpage": value
+                    }
                 }
                 this.fetch({
-                    url: interfaces.products,
-                    method: 'POST',
+                    url: interfaces.products + "/" + id,
+                    method: 'PUT',
                     data: data
                 }).then((res) => {
                     if (res.data && res.success == true) {
-
+                        if (t.country == t.Japan) {
+                            if (type == t.property.category) {
+                                t.JapanPrd[index].category = value;
+                            } else {
+                                t.JapanPrd[index].isMainPage = value;
+                            }
+                        } else if (t.country == t.Korea) {
+                            if (type == t.property.category) {
+                                t.KoreaPrd[index].category = value;
+                            } else {
+                                t.KoreaPrd[index].status = value;
+                            }
+                        } else {
+                            if (type == t.property.category) {
+                                t.ThailandPrd[index].category = value;
+                            } else {
+                                t.ThailandPrd[index].status = value;
+                            }
+                        }
                     } else {
                         let msg = "服务器繁忙，请稍后再试";
                         if (res.message) {
@@ -678,13 +706,13 @@
                                 t.JapanPrd[index].status = "01";
                             }
                         } else if (t.country == t.Korea) {
-                            if (prd.status == "01") {
+                            if (status == "01") {
                                 t.KoreaPrd[index].status = "02";
                             } else {
                                 t.KoreaPrd[index].status = "01";
                             }
                         } else {
-                            if (prd.status == "01") {
+                            if (status == "01") {
                                 t.ThailandPrd[index].status = "02";
                             } else {
                                 t.ThailandPrd[index].status = "01";

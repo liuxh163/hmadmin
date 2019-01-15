@@ -259,8 +259,9 @@
             ]),
         },
         mounted() {
+            this.setPrdInfo({});
             console.log("id: " + this.id);
-            if (this.id != '' && this.id != undefined) {
+            if (this.id != 0 && this.id != undefined) {
                 this.getDetail();
             }
         }

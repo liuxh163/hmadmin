@@ -34,6 +34,10 @@
                         </el-tag>
                         <el-button icon="el-icon-plus" size="large" @click.native="showTagDialog()" style="vertical-align: middle;margin: 10px;"></el-button>
                     </el-form-item>
+                    
+                    <el-form-item label="评分" style='width: 400px'>
+                        <el-input type='number' step="0.1" min="0" max="5" v-model="form.score"></el-input>
+                    </el-form-item>
 
                     <el-form-item label="文字翻译">
                         <el-switch v-model="form.liter"></el-switch>
@@ -109,6 +113,7 @@
                     followPrice: 0,
                     recep: true,
                     recepPrice: 0,
+                    score: 0,
                     type: "",
                     service: "02", //未知数据
                     intro: "",

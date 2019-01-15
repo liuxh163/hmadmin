@@ -41,6 +41,16 @@
                 <el-form-item label="出行卡">
                     <el-switch v-model="prdinfo.travelCard"></el-switch>
                 </el-form-item> -->
+                
+                <el-form-item label="首页图">
+                    <el-upload class="avatar-uploader" :action="uploadUrl" :headers="headers" :show-file-list="false"
+                        :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" name="filex">
+                        <!-- <img v-if="coverPath" :src="coverPath" class="avatar"> -->
+                        <img v-if="prdinfo.coverPic && prdinfo.coverPic.length > 0" :src="prdinfo.coverPic[0].path" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        <div class="el-upload__tip" slot="tip">图片尺寸建议比例1；4.18，如160*666像素，且不超过2M</div>
+                    </el-upload>
+                </el-form-item>
 
                 <el-form-item label="宣传图">
                     <el-button style='margin-left: 10px; margin-top: 10px;;' type="primary" @click="newImage">添加</el-button>
@@ -103,6 +113,12 @@
                 tagForm: {
                     name: ""
                 },
+                //首页图处理
+                uploadUrl: interfaces.uplaod,
+                headers: {
+                    hmtoken: localStorage.getItem('hmtoken'),
+                },
+                // coverPath: prdinfo.coverPic[0]
             }
         },
         props: {
@@ -118,9 +134,10 @@
         },
         mounted() {
             this.id = this.prdid;
-            
-            this.getTags();
-            this.getImages();
+            if (this.id != 0 && this.id != undefined) {
+                this.getTags();
+                this.getImages();
+            }
         },
         methods: {
             ...mapMutations([
@@ -270,7 +287,6 @@
                     method: 'GET',
                     params: {
                         location: "05",
-                        status: "01,02",
                         productId: this.id
                     }
                 }).then((res) => {
@@ -459,7 +475,41 @@
                         type: 'error'
                     });
                 });
-            }
+            },
+            handleAvatarSuccess(res, file) {
+                if (res.data && res.success == true) {
+                    this.prdinfo.coverPic.push({
+                        path: res.data.files[0].path
+                    });
+                    this.prdinfo.coverId = res.data.files[0].id;
+                } else {
+                    let msg = "服务器繁忙，请稍后再试";
+                    if (res.message) {
+                        console.log("exception：" + res.message);
+                        msg = res.message;
+                    }
+                    this.$message({
+                        showClose: true,
+                        message: msg,
+                        type: 'error'
+                    });
+                }
+            },
+            beforeAvatarUpload(file) {
+//                 const isJPG = file.type === 'image/jpeg';
+//                 const isLt2M = file.size / 1024 / 1024 < 2;
+//                 console.log(file.type + "..." + file.size);
+//                 if (!isJPG) {
+//                     this.$message.error('上传头像图片只能是 JPG 格式!');
+//                     return false;
+//                 }
+//                 if (!isLt2M) {
+//                     this.$message.error('上传头像图片大小不能超过 2MB!');
+//                     return false;
+//                 }
+//                 return isJPG && isLt2M;
+                return true;
+            },
         },
         created() {
             // this.id = this.$route.query.id;
@@ -468,6 +518,33 @@
 </script>
 
 <style scoped>
+    avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+    
     .el-tag {
         padding: 10px 15px;
         margin: 10px;
