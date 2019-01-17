@@ -64,7 +64,7 @@
                         <router-link :to="{path: '/product/detail', query:{id:0, nation:getNationFromCountry()}}">
                             <el-button style='margin-left: 10px; margin-top: 20px; margin-bottom: 20px;' type="primary">添加新产品</el-button>
                         </router-link>
-                        <el-table :data="JapanPrd" border class="table" style="width: 100%">
+                        <el-table :data="KoreaPrd" border class="table" style="width: 100%">
                             <el-table-column prop="desc" label="名称"></el-table-column>
                             <el-table-column prop="adultPrice" label="成人价" sortable width="100" align="center"></el-table-column>
                             <!-- <el-table-column prop="womenPrice" label="妇女价" sortable width="100" align="center"></el-table-column>
@@ -115,7 +115,7 @@
                         <router-link :to="{path: '/product/detail', query:{id:0, nation:getNationFromCountry()}}">
                             <el-button style='margin-left: 10px; margin-top: 20px; margin-bottom: 20px;' type="primary">添加新产品</el-button>
                         </router-link>
-                        <el-table :data="JapanPrd" border class="table" style="width: 100%">
+                        <el-table :data="ThailandPrd" border class="table" style="width: 100%">
                             <el-table-column prop="desc" label="名称"></el-table-column>
                             <el-table-column prop="adultPrice" label="成人价" sortable width="100" align="center"></el-table-column>
                             <!-- <el-table-column prop="womenPrice" label="妇女价" sortable width="100" align="center"></el-table-column>

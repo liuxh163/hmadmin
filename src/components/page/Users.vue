@@ -8,17 +8,19 @@
         <div class="container">
             <el-table :data="users" border class="table" style="width: 100%">
                 <el-table-column prop="userName" label="名字" sortable width="120"></el-table-column>
-                <el-table-column prop="telephone" label="电话"></el-table-column>
-                <el-table-column :prop="gender(scope.row.gender)" label="性别" width="100" align="center"></el-table-column>
+                <el-table-column prop="telephone" label="电话" width="120"></el-table-column>
+                <el-table-column :prop="gender(gender)" label="性别" width="100" align="center"></el-table-column>
+                <el-table-column prop="hmCoins" label="海马金" sortable align="center" width='100'></el-table-column>
                 <el-table-column prop="address" label="地址" sortable align="center"></el-table-column>
+
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
                         <el-button v-if='scope.row.status == "01"' type="text" style='margin-right: 15px;' class='button3'
                             @click="changeStatus(scope.$index, scope.row.id, scope.row.status)">停用</el-button>
                         <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatus(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
-                        <router-link :to="{path: '/users/detail', query:{id:scope.row.id}}" style='margin-right: 15px;'>
+                        <!-- <router-link :to="{path: '/users/detail', query:{id:scope.row.id}}" style='margin-right: 15px;'>
                             <el-button type="text" icon="el-icon-edit">查看</el-button>
-                        </router-link>
+                        </router-link> -->
                     </template>
                 </el-table-column>
             </el-table>
@@ -89,25 +91,11 @@
                     method: "PUT",
                 }).then((res) => {
                     if (res.data && res.success == true) {
-                        //更新服务人员状态
-                        if (t.country == t.Japan) {
-                            if (status == "01") {
-                                t.JapanPsn[index].status = "02";
-                            } else {
-                                t.JapanPsn[index].status = "01";
-                            }
-                        } else if (t.country == t.Korea) {
-                            if (status == "01") {
-                                t.KoreaPsn[index].status = "02";
-                            } else {
-                                t.KoreaPsn[index].status = "01";
-                            }
-                        } else if (t.country == t.Thailand) {
-                            if (status == "01") {
-                                t.ThailandPsn[index].status = "02";
-                            } else {
-                                t.ThailandPsn[index].status = "01";
-                            }
+                        //更新人员状态
+                        if (status == "01") {
+                            t.users[index].status = "02";
+                        } else {
+                            t.users[index].status = "01";
                         }
                     } else {
                         let msg = "服务器繁忙，请稍后再试";
@@ -145,5 +133,15 @@
 
     .red {
         color: #ff0000;
+    }
+
+    .button3 {
+        color: red;
+        padding: 0;
+    }
+
+    .button4 {
+        color: green;
+        padding: 0;
     }
 </style>
