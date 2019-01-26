@@ -10,7 +10,7 @@ if (release === false) {
     _ip = '47.92.131.110'
     _port = '24651'
 } else if (release === true) {
-    _ip = 'http://hmapi.haima101.com'
+    _ip = 'hmapi.haima101.com'
     _port = '80'
 }
 
