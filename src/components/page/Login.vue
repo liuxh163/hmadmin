@@ -36,9 +36,9 @@
         data: function() {
             return {
                 ruleForm: {
-                    telephone: "13718863263",
-                    username: 'admin',
-                    password: 'admin'
+                    telephone: "",
+                    username: '',
+                    password: ''
                 },
                 rules: {
                     telephone: [{
