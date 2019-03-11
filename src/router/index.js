@@ -164,7 +164,14 @@ export default new Router({
 					meta: {
 						title: '403'
 					}
-				}
+				},
+                {
+                	path: '/orders',
+                	component: resolve => require(['../components/page/Orders.vue'], resolve),
+                	meta: {
+                		title: '订单'
+                	}
+                },
 			]
 		},
 		{

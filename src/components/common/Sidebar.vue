@@ -63,6 +63,11 @@
                     	index: 'user',
                     	title: '注册人员'
                     },
+                    {
+                    	icon: 'el-icon-tickets',
+                    	index: 'orders',
+                    	title: '订单'
+                    },
 //                     {
 //                         icon: 'el-icon-lx-home',
 //                         index: 'dashboard',

@@ -13,7 +13,11 @@ let interfaces = {
     "posts": "api/v1/posts",
     "comments": "api/v1/comments",
     "users": "api/v1/users",
-    "tags": "api/v1/tags"
+    "tags": "api/v1/tags",
+    "orders": "api/v1/orders/beConfirm",
+    "confirmOrder": "api/v1/orders/confirm",
+    "modifyOrder": "api/v1/orders/confirmWithReset",
+    "nationProducts": "api/v2/productsWithAttendants"
 };
 
 export {
