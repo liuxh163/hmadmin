@@ -103,6 +103,13 @@ export default new Router({
 					}]
 				},
                 {
+                    path: '/product/detail2',
+                    component: resolve => require(['../components/page/ProductDetail2.vue'], resolve),
+                    meta: {
+                    	title: '产品详情'
+                    }
+                },
+                {
                 	path: '/personnel',
                 	component: resolve => require(['../components/page/Personnel.vue'], resolve),
                 	meta: {

@@ -13,7 +13,7 @@
 
                     <ImageList :data="imagesJapan" :showDialog='showDialog' :editForm='form' @edit="editImage" @change="changeStatusImage"
                         @delete="deleteImage"></ImageList>
-                    <router-link :to="{path: '/product/detail', query:{id:0, nation:getNationFromCountry()}}">
+                    <router-link :to="{path: '/product/detail2', query:{id:0, nation:getNationFromCountry()}}">
                         <el-button style='margin-left: 10px; margin-top: 20px; margin-bottom: 20px;' type="primary">添加新产品</el-button>
                     </router-link>
                     <el-table :data="JapanPrd" border class="table" style="width: 100%">
@@ -45,7 +45,7 @@
                                 <el-button v-if='scope.row.status == "01"' type="text" style='margin-right: 15px;'
                                     class='button3' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">停用</el-button>
                                 <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
-                                <router-link :to="{path: '/product/detail', query:{id:scope.row.id}}" style='margin-right: 15px;'>
+                                <router-link :to="{path: '/product/detail2', query:{id:scope.row.id}}" style='margin-right: 15px;'>
                                     <el-button type="text" icon="el-icon-edit">编辑</el-button>
                                 </router-link>
                                 <el-button type="text" icon="el-icon-delete" class="red" @click="deletePrd(scope.$index, scope.row.id)">删除</el-button>
@@ -61,7 +61,7 @@
                         <ImageList :data="imagesKorea" :showDialog='showDialog' :editForm='form' @edit="editImage"
                             @change="changeStatusImage" @delete="deleteImage"></ImageList>
 
-                        <router-link :to="{path: '/product/detail', query:{id:0, nation:getNationFromCountry()}}">
+                        <router-link :to="{path: '/product/detail2', query:{id:0, nation:getNationFromCountry()}}">
                             <el-button style='margin-left: 10px; margin-top: 20px; margin-bottom: 20px;' type="primary">添加新产品</el-button>
                         </router-link>
                         <el-table :data="KoreaPrd" border class="table" style="width: 100%">
@@ -95,7 +95,7 @@
                                     <el-button v-if='scope.row.status == "01"' type="text" style='margin-right: 15px;'
                                         class='button3' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">停用</el-button>
                                     <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
-                                    <router-link :to="{path: '/product/detail', query:{id:scope.row.id}}" style='margin-right: 15px;'>
+                                    <router-link :to="{path: '/product/detail2', query:{id:scope.row.id}}" style='margin-right: 15px;'>
                                         <el-button type="text" icon="el-icon-edit">编辑</el-button>
                                     </router-link>
                                     <el-button type="text" icon="el-icon-delete" class="red" @click="deletePrd(scope.$index, scope.row.id)">删除</el-button>
@@ -112,7 +112,7 @@
                         <ImageList :data="imagesThailand" :showDialog='showDialog' :editForm='form' @edit="editImage"
                             @change="changeStatusImage" @delete="deleteImage"></ImageList>
 
-                        <router-link :to="{path: '/product/detail', query:{id:0, nation:getNationFromCountry()}}">
+                        <router-link :to="{path: '/product/detail2', query:{id:0, nation:getNationFromCountry()}}">
                             <el-button style='margin-left: 10px; margin-top: 20px; margin-bottom: 20px;' type="primary">添加新产品</el-button>
                         </router-link>
                         <el-table :data="ThailandPrd" border class="table" style="width: 100%">
@@ -146,7 +146,7 @@
                                     <el-button v-if='scope.row.status == "01"' type="text" style='margin-right: 15px;'
                                         class='button3' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">停用</el-button>
                                     <el-button v-else type="text" style='margin-right: 15px;' class='button4' @click="changeStatusPrd(scope.$index, scope.row.id, scope.row.status)">启用</el-button>
-                                    <router-link :to="{path: '/product/detail', query:{id:scope.row.id}}" style='margin-right: 15px;'>
+                                    <router-link :to="{path: '/product/detail2', query:{id:scope.row.id}}" style='margin-right: 15px;'>
                                         <el-button type="text" icon="el-icon-edit">编辑</el-button>
                                     </router-link>
                                     <el-button type="text" icon="el-icon-delete" class="red" @click="deletePrd(scope.$index, scope.row.id)">删除</el-button>

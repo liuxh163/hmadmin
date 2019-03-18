@@ -8,6 +8,7 @@ let interfaces = {
     "admin":"/api/v1/admins",
     "carousels": "api/v1/carousels",
     "products": "api/v1/products",
+    "productDetail": "api/v3/products",
     "personnel": 'api/v1/servants',
     "forums": 'api/v1/topics',
     "posts": "api/v1/posts",
